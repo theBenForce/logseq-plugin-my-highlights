@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/theBenForce/logseq-kindle-highlights/compare/v1.1.0...v1.2.0) (2022-02-28)
+
+
+### Features
+
+* highlight importing works ([873fba2](https://github.com/theBenForce/logseq-kindle-highlights/commit/873fba2c5736444eeefa3d49df3fed964090d26f))
+
 # [1.1.0](https://github.com/theBenForce/logseq-kindle-highlights/compare/v1.0.0...v1.1.0) (2022-02-28)
 
 

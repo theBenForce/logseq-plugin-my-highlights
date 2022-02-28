@@ -1,6 +1,6 @@
 {
   "name": "logseq-plugin-my-highlights",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "main": "dist/index.html",
   "author": "Ben Force",
   "scripts": {
