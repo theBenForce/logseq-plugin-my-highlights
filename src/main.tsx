@@ -58,12 +58,12 @@ function main() {
     }
   `);
 
-  logseq.provideUI({
+  logseq.App.registerUIItem('toolbar', {
     key: openIconName,
-    path: "#search",
     template: `
-      <a data-on-click="show"
-         style="opacity: .6; display: inline-flex;">⚙️</a>
+      <a data-on-click="show" class="button">
+        <i class="fa-highlighter"></i>
+      </a>
     `,
   });
 }

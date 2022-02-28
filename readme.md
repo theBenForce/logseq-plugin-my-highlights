@@ -1,17 +1,13 @@
-# Logseq Plugin Template React
+# Kindle Highlight Importer
 
 ## Features
 
-- plug & play boilerplate
-- develop with HMR, empowered by lightning fast Vite ⚡
-- windicss for styling
-- pnpm
+- easliy import highlights and notes directly from your kindle
 
-### How HMR works?
+### How Kindle Highlight Importer Works
 
-See vite.config.ts. There is a custom plugin that will write a dev only index.html.
-The index.html will
 
-- change its base to `http://${config.server.host}:${config.server.port}`
-- attach `/@vite/client` (allows error overlay and connect HMR ws)
-- register react-refresh preamble code
+## References
+1. https://github.com/believer/kindle-highlights/tree/main/packages/parser
+2. https://reactjsexample.com/logseq-plugin-boilerplate-w-react-vite/
+3. https://github.com/hadynz/obsidian-kindle-plugin

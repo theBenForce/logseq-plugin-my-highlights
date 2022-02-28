@@ -1,9 +1,16 @@
 import React, { useRef } from "react";
 import { useAppVisible } from "./utils";
+import { dialog } from 'electron';
 
 function App() {
   const innerRef = useRef<HTMLDivElement>(null);
   const visible = useAppVisible();
+
+  const showFileOpen = async () => {
+    const result = dialog.showOpenDialog({ title: 'Select Kindle Clippings' });
+    console.info(result);
+  }
+
   if (visible) {
     return (
       <main
@@ -15,7 +22,8 @@ function App() {
         }}
       >
         <div ref={innerRef} className="text-size-2em">
-          Welcome to [[Logseq]] Plugins!
+          <h3>Welcome to [[Logseq]] Plugins!</h3>
+          <button onClick={showFileOpen}>Select File</button>
         </div>
       </main>
     );

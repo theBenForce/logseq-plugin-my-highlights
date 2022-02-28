@@ -33,7 +33,7 @@ const devIndexHtmlPlugin: () => Plugin = () => {
             window.$RefreshSig$ = () => (type) => type;
             window.__vite_plugin_react_preamble_installed__ = true;
           </script>
-          <link rel="icon" type="image/svg+xml" href="logo.svg" />
+          <link rel="icon" type="image/svg+xml" href="icon.svg" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>React Plugin</title>
         </head>
