@@ -1,3 +1,10 @@
+# 1.0.0 (2022-02-28)
+
+
+### Features
+
+* update readme ([94c4eea](https://github.com/theBenForce/logseq-kindle-highlights/commit/94c4eea4fa70dfb046d860a02031e8c166cc033f))
+
 # 1.0.0 (2021-09-03)
 
 
