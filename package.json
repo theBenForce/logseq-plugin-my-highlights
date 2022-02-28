@@ -1,6 +1,6 @@
 {
-  "name": "logseq-plugin-kindle-highlights",
-  "version": "1.1.0",
+  "name": "logseq-plugin-my-highlights",
+  "version": "1.0.0",
   "main": "dist/index.html",
   "author": "Ben Force",
   "scripts": {
@@ -10,10 +10,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@emotion/react": "^11.8.1",
-    "@emotion/styled": "^11.8.1",
+    "@hadynz/kindle-clippings": "^2.0.2",
     "@logseq/libs": "0.0.1-alpha.35",
-    "@mui/material": "^5.4.3",
+    "hash.js": "^1.1.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-use": "^17.3.1"
@@ -30,18 +29,18 @@
     "@typescript-eslint/parser": "5.12.1",
     "@vitejs/plugin-react": "1.2.0",
     "conventional-changelog-conventionalcommits": "4.6.3",
-    "electron": "^17.1.0",
     "eslint": "8.10.0",
     "eslint-plugin-react": "7.29.2",
     "semantic-release": "19.0.2",
     "typescript": "4.5.5",
     "vite": "2.8.4",
+    "vite-plugin-react-svg": "^0.2.0",
     "vite-plugin-windicss": "1.8.1",
     "windicss": "3.5.0"
   },
   "logseq": {
-    "id": "thebenforce-kindle-highlights",
-    "title": "Kindle Highlights",
-    "icon": "./icon.svg"
+    "id": "thebenforce-my-highlights",
+    "title": "My Highlights",
+    "icon": "./src/icon.svg"
   }
 }

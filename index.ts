@@ -75,7 +75,7 @@ function main (baseInfo: LSPluginBaseInfo) {
   })
 
   logseq.App.registerUIItem('toolbar', {
-    key: 'logseq-kindle',
+    key: 'logseq-my-highlights',
     template: `
       <a data-on-click="loadReddits"
          class="button">

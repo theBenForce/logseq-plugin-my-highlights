@@ -3,6 +3,7 @@ import reactPlugin from "@vitejs/plugin-react";
 import WindiCSS from "vite-plugin-windicss";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import reactSvgPlugin from 'vite-plugin-react-svg';
 
 // Hard-coded for now
 // - assume index is "/src/main.tsx"
@@ -59,7 +60,14 @@ const devIndexHtmlPlugin: () => Plugin = () => {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [reactPlugin(), WindiCSS(), devIndexHtmlPlugin()],
+  plugins: [
+    reactPlugin(),
+    WindiCSS(),
+    reactSvgPlugin({
+      defaultExport: 'component'
+    }),
+    devIndexHtmlPlugin()
+  ],
   base: "",
   clearScreen: false,
   // Makes HMR available for development

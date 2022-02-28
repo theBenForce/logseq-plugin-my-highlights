@@ -1,13 +1,17 @@
 import React, { useRef } from "react";
 import { useAppVisible } from "./utils";
+import * as kc from '@hadynz/kindle-clippings';
+import { BasicDialog, DialogAction, DialogActions, DialogHeader } from "./component/dialog/Basic";
+import { HighlightIcon } from "./icons/logo";
+import { ImportBooksDialog } from "./component/dialog/ImportBooks";
 
 function App() {
-  const innerRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const visible = useAppVisible();
+  const [availableBooks, setAvailableBooks] = React.useState<Array<kc.Book> | null>(null);
+  const [showImportBooks, setShowImportBooks] = React.useState<boolean>(false);
 
   const onFileSelected: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
-    // const result = dialog.showOpenDialog({ title: 'Select Kindle Clippings' });
-    // console.info(result);
     console.info('Open File', event.target.files);
 
     if (!event.target.files?.length) {
@@ -16,30 +20,42 @@ function App() {
 
     var reader = new FileReader();
 
-    reader.onload = function(e) {
-        var content = reader.result;
-        //Here the content has been read successfuly
-        console.info(content);
+    reader.onload = () => {
+      const rawRows = kc.readMyClippingsFile(reader.result as string);
+      const books = kc.groupToBooks(rawRows);
+      setAvailableBooks(books);
+      setShowImportBooks(true);
+
+      // @ts-ignore
+      event.target.value = null;
     }
 
-    reader.readAsText(event.target.files[0]); 
+    reader.readAsText(event.target.files[0]);
+  };
+
+  const showOpenFile = () => {
+    fileInputRef.current?.click();
+  };
+
+  const hideImportBooks = () => {
+    setShowImportBooks(false);
+
   }
 
   if (visible) {
     return (
-      <main
-        className="backdrop-filter backdrop-blur-md fixed inset-0 flex items-center justify-center"
-        onClick={(e) => {
-          if (!innerRef.current?.contains(e.target as any)) {
-            window.logseq.hideMainUI();
-          }
-        }}
-      >
-        <div ref={innerRef} className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <h3>Welcome to [[Logseq]] Plugins!</h3>
-          <input type="file" onChange={onFileSelected} />
-        </div>
-      </main>
+      <>
+        <BasicDialog onClose={() => window.logseq.hideMainUI()}>
+          <input ref={fileInputRef} type="file" onChange={onFileSelected} hidden />
+          <DialogHeader title="Import Highlights" icon={<HighlightIcon />} />
+
+          <DialogActions>
+            <DialogAction onClick={showOpenFile} label="Load Clippings File" />
+          </DialogActions>
+        </BasicDialog>
+
+        <ImportBooksDialog show={showImportBooks} onClose={hideImportBooks} books={availableBooks ?? []} />
+      </>
     );
   }
   return null;
