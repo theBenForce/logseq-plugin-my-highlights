@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/theBenForce/logseq-kindle-highlights/compare/v1.0.0...v1.1.0) (2022-02-28)
+
+
+### Features
+
+* can read file contents ([67d1e8a](https://github.com/theBenForce/logseq-kindle-highlights/commit/67d1e8a51a55ad7f8c591c90869c84c9a7f0fc01))
+
 # 1.0.0 (2022-02-28)
 
 
