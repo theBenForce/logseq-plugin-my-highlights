@@ -1,8 +1,10 @@
 {
-  "name": "logseq-my-highlights",
+  "name": "logseq-plugin-my-highlights",
   "version": "1.4.0",
   "main": "dist/index.html",
   "author": "Ben Force",
+  "repository": "https://github.com/theBenForce/logseq-plugin-my-highlights",
+  "issues": "https://github.com/theBenForce/logseq-plugin-my-highlights/issues",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -39,7 +41,7 @@
     "windicss": "3.5.0"
   },
   "logseq": {
-    "id": "logseq-my-highlights",
+    "id": "_myhighlights",
     "title": "My Highlights",
     "icon": "./src/icon.svg"
   }
