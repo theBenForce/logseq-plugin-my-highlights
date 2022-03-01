@@ -9,13 +9,11 @@ export const createBookPageProperties = (book: kc.Book) => `title:: [[highlights
 alias:: [[${book.title}]]
 author:: "${book.author}"
 last_sync:: ${new Date().toISOString()}
-type:: Book
-highlight_id:: ${hash.ripemd160().update('book').update(book.author).update(book.title).digest('hex')}`;
+type:: Book`;
 
 export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) => {
   try {
     await goToPage(`highlights/books/${book.title}`, logseq);
-
     
     const page = await logseq.Editor.getCurrentPage();
     const pageBlocksTree = await logseq.Editor.getCurrentPageBlocksTree()

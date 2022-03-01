@@ -5,6 +5,18 @@
 
   - easliy import highlights and notes directly from your kindle
 
+## Hiding Highlight IDs
+
+To hide the highlight IDs, open settings and click "Edit config.edn". Towards
+the bottom you'll see a comment about hiding specific properties, modify that
+section to look like this:
+
+```
+ ;; hide specific properties for blocks
+ ;; E.g. #{:created-at :updated-at}
+ :block-hidden-properties #{:highlight-id}
+```
+
 ### How Kindle Highlight Importer Works
 
 
