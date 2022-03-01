@@ -1,5 +1,5 @@
 {
-  "name": "logseq-plugin-my-highlights",
+  "name": "logseq-my-highlights",
   "version": "1.3.0",
   "main": "dist/index.html",
   "author": "Ben Force",
@@ -39,7 +39,7 @@
     "windicss": "3.5.0"
   },
   "logseq": {
-    "id": "thebenforce-my-highlights",
+    "id": "logseq-my-highlights",
     "title": "My Highlights",
     "icon": "./src/icon.svg"
   }
