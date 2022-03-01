@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.3.0...v1.4.0) (2022-03-01)
+
+
+### Features
+
+* add documentation ([fb64655](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/fb64655e8d81633bdacafe178cc8d088f8cbae7f))
+
 # [1.3.0](https://github.com/theBenForce/logseq-kindle-highlights/compare/v1.2.0...v1.3.0) (2022-03-01)
 
 
