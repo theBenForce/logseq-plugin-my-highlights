@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.4.1...v1.5.0) (2022-03-01)
+
+
+### Features
+
+* sort latest highlights to top of the list ([67e16d3](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/67e16d33a356a4c248c2911f2a5764608b0dbf3c))
+
 ## [1.4.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.4.0...v1.4.1) (2022-03-01)
 
 
