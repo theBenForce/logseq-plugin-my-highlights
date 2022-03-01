@@ -23,7 +23,7 @@ function App() {
     reader.onload = () => {
       const rawRows = kc.readMyClippingsFile(reader.result as string);
       const books = kc.groupToBooks(rawRows);
-      setAvailableBooks(books);
+      setAvailableBooks(books.reverse());
       setShowImportBooks(true);
 
       // @ts-ignore
@@ -46,7 +46,7 @@ function App() {
     return (
       <>
         <BasicDialog onClose={() => window.logseq.hideMainUI()}>
-          <input ref={fileInputRef} type="file" onChange={onFileSelected} hidden />
+          <input ref={fileInputRef} type="file" accept='.txt' onChange={onFileSelected} hidden />
           <DialogHeader title="Import Highlights" icon={<HighlightIcon />} />
 
           <DialogActions>

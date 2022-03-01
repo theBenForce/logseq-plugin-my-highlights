@@ -13,11 +13,10 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
   const [selectedBooks, setSelectedBooks] = React.useState<Array<string>>([]);
 
   const onImportBooks = async () => {
-    console.info('TODO: Import books', selectedBooks);
-    const firstBook = books.find(({ title }) => title === selectedBooks[0]);
+    const booksToImport = books.filter(({ title }) => selectedBooks.includes(title));
 
-    if (firstBook) {
-      await syncBookHighlights(firstBook, window.logseq);
+    for (const book of booksToImport) {
+      await syncBookHighlights(book, window.logseq);
     }
 
     onClose();
@@ -40,7 +39,10 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
       <div className="p-4 scroll-auto h-96 overflow-y-auto flex flex-col gap-1">
         {books.map((book) => <div className='border rounded flex items-center gap-1 px-2' key={book.title}>
           <input type='checkbox' checked={selectedBooks.includes(book.title)} onChange={onBookSelected(book.title)} />
-          <div className="truncate text-lg grow">{book.title}</div>
+          <div className="flex-col grow truncate">
+            <div className="truncate text-lg">{book.title}</div>
+            {book.author && <div className="truncate text-sm">{book.author}</div>}
+          </div>
         </div>)}
       </div>
       <DialogActions>

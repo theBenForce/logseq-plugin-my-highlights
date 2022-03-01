@@ -6,7 +6,7 @@ import hash from 'hash.js';
 import { EntryType } from '@hadynz/kindle-clippings/dist/blocks/ParsedBlock';
 
 export const createBookPageProperties = (book: kc.Book) => `title:: [[highlights/books/${book.title}]]
-alias:: [[${book.title}]]
+alias:: ${book.title.replaceAll('/', '_').split(':')[0]}
 author:: "${book.author}"
 last_sync:: ${new Date().toISOString()}
 type:: Book`;
@@ -34,12 +34,15 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
       const highlight_id = hash.sha224().update([type, start, content].filter(Boolean).join(':')).digest('hex');
       const icon = type === 'HIGHLIGHT' ? '📌' : type === 'NOTE' ? '📝' : type === 'BOOKMARK' ? '🎯' : '❓';
 
+      const properties: Record<string, unknown> = { highlight_id };
+
+      if (page) {
+        properties.page = page;
+      }
+
       return {
         content: `${icon} ${content}`,
-        properties: {
-          highlight_id,
-          page,
-        }
+        properties,
       } as IBatchBlock;
     }
 
