@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/theBenForce/logseq-kindle-highlights/compare/v1.2.0...v1.3.0) (2022-03-01)
+
+
+### Features
+
+* doesn't import duplicate highlights ([e4fe22f](https://github.com/theBenForce/logseq-kindle-highlights/commit/e4fe22f2f89f39f160d3e9c0064bc6f6e18991ee))
+
 # [1.2.0](https://github.com/theBenForce/logseq-kindle-highlights/compare/v1.1.0...v1.2.0) (2022-02-28)
 
 
