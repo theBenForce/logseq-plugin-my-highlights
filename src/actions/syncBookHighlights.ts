@@ -3,6 +3,7 @@ import * as kc from '@hadynz/kindle-clippings';
 import { IBatchBlock, ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
 import { goToPage } from '../utils/goToPage';
 import hash from 'hash.js';
+import { EntryType } from '@hadynz/kindle-clippings/dist/blocks/ParsedBlock';
 
 export const createBookPageProperties = (book: kc.Book) => `title:: [[highlights/books/${book.title}]]
 alias:: [[${book.title}]]
@@ -29,31 +30,45 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
       await logseq.Editor.updateBlock(targetBlock.uuid, createBookPageProperties(book))
     }
 
-    const blocks = book.annotations.sort((a, b) => (a.page?.from ?? 0) - (b.page?.from ?? 0)).reduce((updates, annotation) => {
-      const hid = hash.sha224().update(JSON.stringify({ type: annotation.type, from: annotation.location?.from, to: annotation.location?.to })).digest('hex');
+    
 
-      // for (let i = 1; i < pageBlocksTree.length; i++) {
-      //   if(pageBlocksTree[i])
-      // }
+    function addContentBlock(content: string, type: EntryType, start?: number, page?: string) {
+      const highlight_id = hash.sha224().update([type, start, content].filter(Boolean).join(':')).digest('hex');
+      const icon = type === 'HIGHLIGHT' ? '📌' : type === 'NOTE' ? '📝' : type === 'BOOKMARK' ? '🎯' : '❓';
 
-      // @ts-ignore
-      if (!pageBlocksTree.includes(blk => blk.properties.hid === hid)) {
-        updates.push({
-          content: `> ${annotation.content}
-  
-        ${annotation.note}`.trim(),
-          properties: {
-            hid,
-          }
-        } as IBatchBlock);
+      return {
+        content: `${icon} ${content}`,
+        properties: {
+          highlight_id,
+          page,
+        }
+      } as IBatchBlock;
+    }
+
+    let blocks = book.annotations.sort((a, b) => (a.page?.from ?? 0) - (b.page?.from ?? 0)).reduce((updates, annotation) => {
+      const content = annotation.content;
+      const type = annotation.type;
+      const start = annotation.location?.from;
+      const page = annotation.page?.display;
+
+      updates.push(addContentBlock(content, type, start, page));
+
+      if (annotation.note) {
+        updates.push(addContentBlock(annotation.note, 'NOTE', start, page));
       }
 
       return updates;
     }, [] as Array<IBatchBlock>);
 
-    await logseq.Editor.insertBatchBlock(targetBlock.uuid, blocks, {
-      sibling: true
-    });
+    for (const block of pageBlocksTree) {
+      blocks = blocks.filter((b) => b.properties?.highlight_id !== block.properties?.highlightId);
+    }
+
+    if (blocks.length) {
+      await logseq.Editor.insertBatchBlock(targetBlock.uuid, blocks, {
+        sibling: true
+      });
+    }
 
   } catch (ex) {
     // @ts-ignore
