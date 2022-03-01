@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.4.0...v1.4.1) (2022-03-01)
+
+
+### Bug Fixes
+
+* update package to follow standards ([bba1b81](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/bba1b815c0a82eca8ecbc571e1b7fd82272dedf1))
+
 # [1.4.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.3.0...v1.4.0) (2022-03-01)
 
 
