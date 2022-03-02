@@ -29,6 +29,9 @@ section to look like this:
  :block-hidden-properties #{:highlight-id}
 ```
 
+## Manual Installation
+
+You can manually install this plugin by downloading the [latest release](https://github.com/theBenForce/logseq-plugin-my-highlights/releases). Download the `logseq-plugin-my-highlights-*.zip` file and unzip its contents to `USER_DIR/.logseq/plugins/logseq-plugin-my-highlights`. Now just reload logseq and you should see the "My Highlights" icon in your toolbar.
 
 ## References
   1. https://github.com/believer/kindle-highlights/tree/main/packages/parser
