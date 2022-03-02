@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.5.0...v1.6.0) (2022-03-02)
+
+
+### Features
+
+* add select all checkbox ([665f032](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/665f03297e8a63bac7196151d3071941ad03b385))
+
 # [1.5.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.4.1...v1.5.0) (2022-03-01)
 
 
