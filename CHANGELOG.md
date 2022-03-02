@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.6.1...v1.6.2) (2022-03-02)
+
+
+### Bug Fixes
+
+* add gif to package ([131a7f0](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/131a7f0b5cdde3171fc6694e8eb66392c786abbe))
+
 ## [1.6.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.6.0...v1.6.1) (2022-03-02)
 
 
