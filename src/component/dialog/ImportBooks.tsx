@@ -16,6 +16,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
 
   React.useEffect(() => {
     const chkAllSelected = document.getElementById('chkAllSelected');
+    if (!chkAllSelected) return;
     // @ts-ignore
     chkAllSelected.indeterminate = selectedBooks.length > 0 && selectedBooks.length < books.length;
   }, [books, selectedBooks])
