@@ -16,7 +16,9 @@ export const BasicDialog: React.FC<BasicDialogProps> = ({ children, onClose }) =
         }}
       >
     <div ref={innerRef}>
-      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-lg">
+      <div className="inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-lg" style={{
+        background: "var(--ls-primary-background-color)"
+      }}>
     {children}
       </div>
     </div>

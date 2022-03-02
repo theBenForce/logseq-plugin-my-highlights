@@ -4,12 +4,14 @@ import * as kc from '@hadynz/kindle-clippings';
 import { BasicDialog, DialogAction, DialogActions, DialogHeader } from "./component/dialog/Basic";
 import { HighlightIcon } from "./icons/logo";
 import { ImportBooksDialog } from "./component/dialog/ImportBooks";
+import { useAdaptBackgroundColor } from "./hooks/useAdaptBackgroundColor";
 
 function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const visible = useAppVisible();
   const [availableBooks, setAvailableBooks] = React.useState<Array<kc.Book> | null>(null);
   const [showImportBooks, setShowImportBooks] = React.useState<boolean>(false);
+  useAdaptBackgroundColor();
 
   const onFileSelected: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     console.info('Open File', event.target.files);
