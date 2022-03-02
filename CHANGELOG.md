@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.6.0...v1.6.1) (2022-03-02)
+
+
+### Bug Fixes
+
+* don't set indeterminate on null ([d27af1b](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/d27af1b5bf9e990282192d2dab5987fce7c10fcd))
+
 # [1.6.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.5.0...v1.6.0) (2022-03-02)
 
 
