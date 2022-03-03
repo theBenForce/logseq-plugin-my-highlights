@@ -19,7 +19,7 @@ Sentry.init({
   integrations: [new BrowserTracing()],
   environment: isDev ? 'dev' : 'prod',
   release: SentryRelease,
-  tracesSampleRate: isDev ? 1.0 : 0.1,
+  tracesSampleRate: 1.0,
 });
 
 // @ts-expect-error
