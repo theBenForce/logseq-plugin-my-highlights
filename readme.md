@@ -42,5 +42,3 @@ You can manually install this plugin by downloading the [latest release](https:/
 ## Support
 
 If you find this plugin useful, please consider [buying me a coffee](https://www.buymeacoffee.com/theBenForce).
-
-[<img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="BuyMeACoffee" width="140">](https://www.buymeacoffee.com/theBenForce)
