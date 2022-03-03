@@ -4,15 +4,29 @@ import "virtual:windi.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 
 import { logseq as PL } from "../package.json";
 import { SettingsSchema } from "./settingsSchema";
 
+
+const isDev = process.env.NODE_ENV === "development";
+
+Sentry.init({
+  dsn: "https://33580a43486d4c0a8d7d4cf9ed316492@o467164.ingest.sentry.io/6241235",
+  integrations: [new BrowserTracing()],
+  environment: isDev ? 'dev' : 'prod',
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: isDev ? 1.0 : 0.1,
+});
+
 // @ts-expect-error
 const css = (t, ...args) => String.raw(t, ...args);
 const magicKey = `__${PL.id}__loaded__`;
-
-const isDev = process.env.NODE_ENV === "development";
 
 function main() {
   const pluginId = logseq.baseInfo.id;
