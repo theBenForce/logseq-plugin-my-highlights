@@ -7,11 +7,11 @@ const SENTRY_PROJECT = process.env.SENTRY_PROJECT;
 const SENTRY_DSN = process.env.SENTRY_DSN;
 
 fs.writeFileSync(path.resolve(process.cwd(), '.env'), `
-SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
-SENTRY_ORG=${SENTRY_ORG}
-SENTRY_PROJECT=${SENTRY_PROJECT}
-SENTRY_DSN=${SENTRY_DSN}
-SENTRY_LOG_LEVEL=info`, 'utf-8');
+SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}\n
+SENTRY_ORG=${SENTRY_ORG}\n
+SENTRY_PROJECT=${SENTRY_PROJECT}\n
+SENTRY_DSN=${SENTRY_DSN}\n
+SENTRY_LOG_LEVEL=info\n`, 'utf-8');
 
 module.exports = {
   branches: ["master"],
