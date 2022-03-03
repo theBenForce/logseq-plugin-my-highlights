@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.8.2...v1.9.0) (2022-03-03)
+
+
+### Features
+
+* add donation options ([4fed980](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/4fed98053df4ecd8d24ca2dfb0d69adb45709faa))
+
 ## [1.8.2](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.8.1...v1.8.2) (2022-03-03)
 
 
