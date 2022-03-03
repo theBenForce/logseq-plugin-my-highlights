@@ -19,6 +19,7 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
+import { BrowserWindow, getCurrentWindow } from '@electron/remote';
 
 function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -26,6 +27,28 @@ function App() {
   const [availableBooks, setAvailableBooks] = React.useState<Array<kc.Book> | null>(null);
   const [showImportBooks, setShowImportBooks] = React.useState<boolean>(false);
   Sentry.withScope(scope => scope.setTransactionName("MainDialog"))
+
+  const scrapeFromCloud = () => {
+    const modal = new BrowserWindow({
+      parent: getCurrentWindow(),
+      width: 450,
+      height: 730,
+      show: false,
+    });
+
+    modal.once('ready-to-show', () => {
+      modal.setTitle('Connect your Amazon account to Logseq');
+      modal.show();
+    });
+
+    modal.webContents.on('did-navigate', async (_event, url) => {
+      if (url.startsWith("https://read.amazon.com")) {
+        modal.close();
+      }
+    });
+
+    modal.loadURL("https://read.amazon.com/notebook");
+  };
 
   const onFileSelected: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     console.info('Open File', event.target.files);
@@ -74,6 +97,7 @@ function App() {
 
           <DialogActions>
             <DialogAction onClick={showOpenFile} label="Load Clippings File" />
+            <DialogAction onClick={scrapeFromCloud} label="Load From Cloud" />
           </DialogActions>
         </BasicDialog>
 
