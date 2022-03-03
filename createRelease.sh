@@ -4,6 +4,7 @@ export NEXT_VERSION=$1
 
 echo "Build Plugin"
 echo VERSION=$NEXT_VERSION > .env.production.local
+echo SENTRY_DSN=$SENTRY_DSN > .env.production.local
 pnpm build
 
 echo "Create Sentry Release"

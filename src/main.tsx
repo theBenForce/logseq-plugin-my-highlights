@@ -13,15 +13,13 @@ import { SettingsSchema } from "./settingsSchema";
 
 const isDev = process.env.NODE_ENV === "development";
 const SentryVersion = import.meta.env.VERSION as string;
+const SentryDsn = import.meta.env.SENTRY_DSN as string;
 
 Sentry.init({
-  dsn: "https://33580a43486d4c0a8d7d4cf9ed316492@o467164.ingest.sentry.io/6241235",
+  dsn: SentryDsn,
   integrations: [new BrowserTracing()],
   environment: isDev ? 'dev' : 'prod',
   release: isDev ? undefined : SentryVersion,
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
   tracesSampleRate: isDev ? 1.0 : 0.1,
 });
 
