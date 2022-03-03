@@ -9,6 +9,26 @@
 ### Features
 
 * add github release url ([accbe32](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/accbe322cdb6d2a53781eae23c8c994a31b55104))
+* add newlines ([a5b1e25](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/a5b1e25c77616bf4d2fcec7f75aadb7c9a1838a0))
+* add sentry analytics ([a1eb3f6](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/a1eb3f689dee40d8ad5b2b6499b3a1d51a291eb5))
+* add sentry release ([c53e38f](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/c53e38f3b8ba3384622a38b015dc40bd07cfb017))
+* create env for sentry config ([8788eab](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/8788eab6f4309a89f34b0303fef6e34149db51d5))
+* create sentry release ([5fde7bc](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/5fde7bc94991157a0e6eecd66140fc15ba8880f3))
+* remove whitespace ([a26e192](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/a26e1927727826af15154dab7b6ba84f79f45d81))
+* show generated env ([8130273](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/8130273f58fca450457ef98be83bc665ad05de52))
+* use dsn from environment ([71c0baf](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/71c0baf9e839f4f629fd9f7377284063e5dcf238))
+
+# [1.8.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.7.0...v1.8.0) (2022-03-03)
+
+
+### Bug Fixes
+
+* use propper variable formatting ([8ea4d42](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/8ea4d42c1e9b54dad533bbfcb41a617e55b693af))
+
+
+### Features
+
+* add github release url ([accbe32](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/accbe322cdb6d2a53781eae23c8c994a31b55104))
 * add sentry analytics ([a1eb3f6](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/a1eb3f689dee40d8ad5b2b6499b3a1d51a291eb5))
 * add sentry release ([c53e38f](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/c53e38f3b8ba3384622a38b015dc40bd07cfb017))
 * create env for sentry config ([8788eab](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/8788eab6f4309a89f34b0303fef6e34149db51d5))
