@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.9.0...v1.10.0) (2022-03-03)
+
+
+### Features
+
+* performance monitoring ([20ed588](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/20ed588deecb9a98c8e5f8c8e862666fa6ebcd14))
+
 # [1.9.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.8.2...v1.9.0) (2022-03-03)
 
 
