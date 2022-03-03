@@ -17,4 +17,4 @@ npx sentry-cli releases set-commits --auto $NEXT_VERSION
 npx sentry-cli releases finalize $NEXT_VERSION
 
 echo "Create Build Artifact"
-npx zip -qq -r logseq-plugin-my-highlights-$NEXT_VERSION.zip dist docs icon.svg readme.md LICENSE package.json
+zip -qq -r logseq-plugin-my-highlights-$NEXT_VERSION.zip dist docs icon.svg readme.md LICENSE package.json
