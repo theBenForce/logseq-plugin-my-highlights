@@ -7,6 +7,8 @@ echo VERSION=$NEXT_VERSION > .env.production.local
 echo "Environment"
 echo $(cat ./.env.production.local)
 echo $(cat ./.env)
+
+echo "Building"
 pnpm build
 
 echo "Create Sentry Release"
