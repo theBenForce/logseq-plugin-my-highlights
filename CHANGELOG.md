@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.8.1...v1.8.2) (2022-03-03)
+
+
+### Bug Fixes
+
+* remove slash from version ([2f70add](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/2f70add44e49cbde5f9f42517ee756ade5090964))
+
 ## [1.8.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.8.0...v1.8.1) (2022-03-03)
 
 
