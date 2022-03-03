@@ -7,7 +7,7 @@ echo VERSION=$NEXT_VERSION > .env.production.local
 pnpm build
 
 echo "Create Sentry Release"
-npx sentry-cli releases new $NEXT_VERSION -e prod
+npx sentry-cli releases new $NEXT_VERSION --url "https://github.com/theBenForce/logseq-plugin-my-highlights/releases/tag/v$NEXT_VERSION"
 npx sentry-cli releases set-commits --auto $NEXT_VERSION
 npx sentry-cli releases finalize $NEXT_VERSION
 
