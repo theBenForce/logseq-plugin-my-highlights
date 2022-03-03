@@ -5,7 +5,11 @@ export NEXT_VERSION=$1
 echo "Build Plugin"
 echo VERSION=$NEXT_VERSION > .env.production.local
 echo SENTRY_DSN=$SENTRY_DSN > .env.production.local
+echo "Environment"
+echo $(cat ./.env.production.local)
 pnpm build
+
+export SENTRY_LOG_LEVEL=debug
 
 echo "Create Sentry Release"
 npx sentry-cli releases new $NEXT_VERSION --url "https://github.com/theBenForce/logseq-plugin-my-highlights/releases/tag/v$NEXT_VERSION"
