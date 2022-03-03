@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.6.2...v1.7.0) (2022-03-03)
+
+
+### Features
+
+* use settings template for highlight ([d47f204](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/d47f2044a201570d6faf724d3a2b2a212b59e048))
+
 ## [1.6.2](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.6.1...v1.6.2) (2022-03-02)
 
 
