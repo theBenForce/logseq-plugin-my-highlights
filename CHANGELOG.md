@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.8.0...v1.8.1) (2022-03-03)
+
+
+### Bug Fixes
+
+* use unique sentry versions ([0d780c0](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/0d780c09d477929a572844d04ba5acb125c4b8c5))
+
 # [1.8.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.7.0...v1.8.0) (2022-03-03)
 
 
