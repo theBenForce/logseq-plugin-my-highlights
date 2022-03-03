@@ -10,7 +10,6 @@ import { BrowserTracing } from "@sentry/tracing";
 import { logseq as PL } from "../package.json";
 import { SettingsSchema } from "./settingsSchema";
 
-
 const isDev = process.env.NODE_ENV === "development";
 const SentryVersion = import.meta.env.VERSION as string;
 const SentryDsn = import.meta.env.SENTRY_DSN as string;
