@@ -11,14 +11,14 @@ import { logseq as PL } from "../package.json";
 import { SettingsSchema } from "./settingsSchema";
 
 const isDev = process.env.NODE_ENV === "development";
-const SentryVersion = import.meta.env.VERSION as string;
+const SentryRelease = import.meta.env.SENTRY_RELEASE as string;
 const SentryDsn = import.meta.env.SENTRY_DSN as string;
 
 Sentry.init({
   dsn: SentryDsn,
   integrations: [new BrowserTracing()],
   environment: isDev ? 'dev' : 'prod',
-  release: isDev ? undefined : SentryVersion,
+  release: SentryRelease,
   tracesSampleRate: isDev ? 1.0 : 0.1,
 });
 
