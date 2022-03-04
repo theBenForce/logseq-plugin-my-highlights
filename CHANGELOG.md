@@ -1,3 +1,10 @@
+## [1.11.6](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.5...v1.11.6) (2022-03-04)
+
+
+### Bug Fixes
+
+* remove invalid characters ([91da16b](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/91da16b80a0b2752d60d464aa2e963ee586d6fbe))
+
 ## [1.11.5](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.4...v1.11.5) (2022-03-04)
 
 
