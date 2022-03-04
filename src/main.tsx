@@ -7,27 +7,15 @@ import App from "./App";
 
 import { logseq as PL } from "../package.json";
 import { SettingsSchema } from "./settingsSchema";
-import * as Sentry from '@sentry/react';
 
 
 const isDev = process.env.NODE_ENV === "development";
-const SentryRelease = import.meta.env.VITE_SENTRY_RELEASE as string;
-const SentryDsn = import.meta.env.VITE_SENTRY_DSN as string;
 
 // @ts-expect-error
 const css = (t, ...args) => String.raw(t, ...args);
 const magicKey = `__${PL.id}__loaded__`;
 
 function main() {
-  
-  Sentry.init({
-    dsn: SentryDsn,
-    integrations: [],
-    environment: isDev ? 'dev' : 'prod',
-    release: SentryRelease,
-    tracesSampleRate: 1.0,
-  });
-
   const pluginId = logseq.baseInfo.id;
   console.info(`#${pluginId}: MAIN`);
   ReactDOM.render(

@@ -5,7 +5,19 @@ import { BasicDialog, DialogAction, DialogActions, DialogHeader } from "./compon
 import { HighlightIcon } from "./icons/logo";
 import { ImportBooksDialog } from "./component/dialog/ImportBooks";
 import * as Sentry from '@sentry/react';
-import { Transaction } from '@sentry/types';
+import { BrowserTracing } from "@sentry/tracing";
+
+const SentryRelease = import.meta.env.VITE_SENTRY_RELEASE as string;
+const SentryDsn = import.meta.env.VITE_SENTRY_DSN as string;
+const SentryEnvironment = import.meta.env.VITE_SENTRY_ENVIRONEMT as string;
+  
+Sentry.init({
+  dsn: SentryDsn,
+  integrations: [new BrowserTracing()],
+  environment: SentryEnvironment,
+  release: SentryRelease,
+  tracesSampleRate: 1.0,
+});
 
 
 function App() {
@@ -13,24 +25,7 @@ function App() {
   const visible = useAppVisible();
   const [availableBooks, setAvailableBooks] = React.useState<Array<kc.Book> | null>(null);
   const [showImportBooks, setShowImportBooks] = React.useState<boolean>(false);
-  const [transaction, setTransaction] = React.useState<Transaction | null>(null);
-
-  
-  React.useEffect(() => {
-    if (transaction) {
-      transaction.finish();
-      setTransaction(null);
-    }
-
-    if (visible) {
-      const t = Sentry.startTransaction({
-        name: 'main-dialog',
-      });
-      
-      Sentry.getCurrentHub().configureScope(scope => scope.setSpan(t));
-      setTransaction(t);
-    }
-  }, [visible]);
+  Sentry.withScope(scope => scope.setTransactionName("MainDialog"))
 
   const onFileSelected: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     console.info('Open File', event.target.files);

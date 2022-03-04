@@ -7,6 +7,7 @@ import { EntryType } from '@hadynz/kindle-clippings/dist/blocks/ParsedBlock';
 import { renderTemplate } from '../utils/renderTemplate';
 import { createZettelId } from '../utils/zettelId';
 import * as Sentry from '@sentry/react';
+import { Transaction } from '@sentry/tracing';
 
 export const createBookPageProperties = (title: string, book: kc.Book) => `title:: [[${title}]]
 alias:: ${book.title.replaceAll('/', '_').split(':')[0]}
@@ -14,9 +15,8 @@ author:: "${book.author}"
 last_sync:: ${new Date().toISOString()}
 type:: Book`;
 
-export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) => {
+export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, transaction?: Transaction) => {
   console.info(`Importing from ${book.title}`);
-  const transaction = Sentry.getCurrentHub()?.getScope()?.getTransaction();
   const span = transaction?.startChild({
     op: "syncBookHighlights",
     description: "Import highlights from Kindle My Clippings file",
@@ -34,6 +34,11 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
       type: 'book',
       title: book.title,
       zettel,
+    });
+
+    const updatePage = span?.startChild({
+      op: 'updatePageBlock',
+      description: 'Create/Update Page Block'
     });
 
     console.info(`Loading path ${path}`);
@@ -54,7 +59,7 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
       // await logseq.Editor.updateBlock(targetBlock.uuid, createBookPageProperties(path, book))
     }
 
-    
+    updatePage?.finish();
 
     function addContentBlock(content: string, type: EntryType, start?: number, page?: string) {
       const highlight_id = hash.sha224().update([type, start, content].filter(Boolean).join(':')).digest('hex');
@@ -72,6 +77,14 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
       } as IBatchBlock;
     }
 
+    const createHighlightBlocks = span?.startChild({
+      op: 'createHighlightBlocks',
+      description: 'Create Blocks',
+      data: {
+        annotations: book.annotations.length,
+      }
+    });
+
     let blocks = book.annotations.sort((a, b) => (a.page?.from ?? 0) - (b.page?.from ?? 0)).reduce((updates, annotation) => {
       const content = annotation.content;
       const type = annotation.type;
@@ -87,6 +100,7 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
       return updates;
     }, [] as Array<IBatchBlock>);
 
+    createHighlightBlocks?.setData('blocks', blocks.length).finish();
     console.info(`Created ${blocks.length} blocks`);
 
     for (const block of pageBlocksTree) {
@@ -95,11 +109,20 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
 
     console.info(`Filtered block count: ${blocks.length}`);
 
+    const insertBlocks = span?.startChild({
+      op: 'insertBlocks',
+      description: 'Insert Blocks',
+      data: {
+        blocks: blocks.length
+      }
+    });
     if (blocks.length) {
       await logseq.Editor.insertBatchBlock(targetBlock.uuid, blocks, {
         sibling: true
       });
     }
+
+    insertBlocks?.finish();
 
     span?.setStatus('ok');
     console.info(`Done importing ${book.title}`);

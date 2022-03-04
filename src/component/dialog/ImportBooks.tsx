@@ -25,9 +25,8 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
   const onImportBooks = async () => {
     console.info(`onImportBooks`);
     const booksToImport = books.filter(({ title }) => selectedBooks.includes(title));
-    const transaction = Sentry.getCurrentHub()?.getScope()?.getTransaction();
-    const span = transaction?.startChild({
-      op: "onImportBooks",
+    const transaction = Sentry.startTransaction({
+      name: 'onImportBooks',
       description: "Import highlights from Kindle My Clippings file",
       data: {
         books: booksToImport.length,
@@ -35,11 +34,13 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
         source: 'kindle_clippings',
       }
     });
+    Sentry.getCurrentHub().configureScope(scope => scope.setSpan(transaction));
 
     console.info(`Importing ${booksToImport.length} books`);
     for (const book of booksToImport) {
       try {
-        await syncBookHighlights(book, window.logseq);
+        // @ts-ignore
+        await syncBookHighlights(book, window.logseq, transaction);
       } catch (ex) {
         Sentry.captureException(ex);
       }
@@ -47,7 +48,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
 
     console.info(`Done importing books`);
 
-    span?.finish();
+    transaction.finish();
 
     onClose();
   };
