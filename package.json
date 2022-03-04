@@ -46,7 +46,7 @@
     "windicss": "3.5.0"
   },
   "logseq": {
-    "id": "_myhighlights",
+    "id": "logseq-my-highlights",
     "title": "My Highlights",
     "icon": "./icon.svg"
   }

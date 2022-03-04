@@ -15,6 +15,7 @@ last_sync:: ${new Date().toISOString()}
 type:: Book`;
 
 export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) => {
+  console.info(`Importing from ${book.title}`);
   const transaction = Sentry.getCurrentHub()?.getScope()?.getTransaction();
   const span = transaction?.startChild({
     op: "syncBookHighlights",
@@ -35,6 +36,7 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
       zettel,
     });
 
+    console.info(`Loading path ${path}`);
     await goToPage(path, logseq);
     
     const page = await logseq.Editor.getCurrentPage();
@@ -43,12 +45,13 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
     let targetBlock = pageBlocksTree[0]!;
     
     if (!pageBlocksTree.length) {
-
+      console.info(`Creating new page block`);
       // @ts-ignore
       targetBlock = await logseq.Editor.insertBlock(page?.name, createBookPageProperties(path, book), { isPageBlock: true });
     } else {
+      console.info('SKIP: Updating page block');
       span?.setData('is_new', false);
-      await logseq.Editor.updateBlock(targetBlock.uuid, createBookPageProperties(path, book))
+      // await logseq.Editor.updateBlock(targetBlock.uuid, createBookPageProperties(path, book))
     }
 
     
@@ -84,9 +87,13 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
       return updates;
     }, [] as Array<IBatchBlock>);
 
+    console.info(`Created ${blocks.length} blocks`);
+
     for (const block of pageBlocksTree) {
       blocks = blocks.filter((b) => b.properties?.highlight_id !== block.properties?.highlightId);
     }
+
+    console.info(`Filtered block count: ${blocks.length}`);
 
     if (blocks.length) {
       await logseq.Editor.insertBatchBlock(targetBlock.uuid, blocks, {
@@ -95,11 +102,12 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
     }
 
     span?.setStatus('ok');
+    console.info(`Done importing ${book.title}`);
   } catch (ex) {
+    console.error(`Error importing ${book.title}`, ex);
     Sentry.captureException(ex);
     // @ts-ignore
     logseq.App.showMsg(ex.toString(), 'warning');
-    console.error(ex);
     span?.setStatus('unknown_error');
   } finally {
     span?.finish();

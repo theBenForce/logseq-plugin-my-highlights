@@ -23,6 +23,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
   }, [books, selectedBooks])
 
   const onImportBooks = async () => {
+    console.info(`onImportBooks`);
     const booksToImport = books.filter(({ title }) => selectedBooks.includes(title));
     const transaction = Sentry.getCurrentHub()?.getScope()?.getTransaction();
     const span = transaction?.startChild({
@@ -35,6 +36,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
       }
     });
 
+    console.info(`Importing ${booksToImport.length} books`);
     for (const book of booksToImport) {
       try {
         await syncBookHighlights(book, window.logseq);
@@ -42,6 +44,8 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
         Sentry.captureException(ex);
       }
     }
+
+    console.info(`Done importing books`);
 
     span?.finish();
 

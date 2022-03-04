@@ -36,14 +36,18 @@ function App() {
     console.info('Open File', event.target.files);
 
     if (!event.target.files?.length) {
+      console.info(`No files selected`);
       return;
     }
 
     var reader = new FileReader();
 
     reader.onload = () => {
+      console.info(`File loaded, parsing`);
       const rawRows = kc.readMyClippingsFile(reader.result as string);
       const books = kc.groupToBooks(rawRows);
+
+      console.info(`Open select book dialog`);
       setAvailableBooks(books.reverse());
       setShowImportBooks(true);
 
@@ -51,6 +55,7 @@ function App() {
       event.target.value = null;
     }
 
+    console.info(`Reading file ${event.target.files[0]}`);
     reader.readAsText(event.target.files[0]);
   };
 
