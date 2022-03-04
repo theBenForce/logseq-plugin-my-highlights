@@ -1,3 +1,10 @@
+## [1.11.4](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.3...v1.11.4) (2022-03-04)
+
+
+### Bug Fixes
+
+* don't update page block ([21ec254](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/21ec254d667f7e8364c202077e9cdf74e7b21704))
+
 ## [1.11.3](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.2...v1.11.3) (2022-03-04)
 
 
