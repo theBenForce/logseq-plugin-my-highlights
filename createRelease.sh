@@ -16,8 +16,12 @@ pnpm build
 echo "Create Sentry Release"
 npx sentry-cli releases new $SENTRY_RELEASE --url "https://github.com/theBenForce/logseq-plugin-my-highlights/releases/tag/v$NEXT_VERSION"
 npx sentry-cli releases set-commits --auto $SENTRY_RELEASE
+npx sentry-cli releases files $SENTRY_RELEASE upload-sourcemaps ./dist/assets/*.js.map
 npx sentry-cli releases finalize $SENTRY_RELEASE
 npx sentry-cli releases deploys $SENTRY_RELEASE new -e prod
+
+echo "Remove source maps"
+rm ./dist/assets/*.js.map
 
 echo "Create Build Artifact"
 zip -qq -r logseq-plugin-my-highlights-$NEXT_VERSION.zip dist docs icon.svg readme.md LICENSE package.json
