@@ -6,6 +6,7 @@ import hash from 'hash.js';
 import { EntryType } from '@hadynz/kindle-clippings/dist/blocks/ParsedBlock';
 import { renderTemplate } from '../utils/renderTemplate';
 import { createZettelId } from '../utils/zettelId';
+import * as Sentry from '@sentry/react';
 
 export const createBookPageProperties = (title: string, book: kc.Book) => `title:: [[${title}]]
 alias:: ${book.title.replaceAll('/', '_').split(':')[0]}
@@ -14,6 +15,17 @@ last_sync:: ${new Date().toISOString()}
 type:: Book`;
 
 export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) => {
+  const transaction = Sentry.getCurrentHub()?.getScope()?.getTransaction();
+  const span = transaction?.startChild({
+    op: "syncBookHighlights",
+    description: "Import highlights from Kindle My Clippings file",
+    data: {
+      highlights: book.annotations.length,
+      source: 'kindle_clippings',
+      'is_new': true
+    }
+  });
+
   try {
     const zettel = createZettelId();
     let path = logseq.settings?.highlight_path ?? `highlights/{type}/{title}`;
@@ -35,6 +47,7 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
       // @ts-ignore
       targetBlock = await logseq.Editor.insertBlock(page?.name, createBookPageProperties(path, book), { isPageBlock: true });
     } else {
+      span?.setData('is_new', false);
       await logseq.Editor.updateBlock(targetBlock.uuid, createBookPageProperties(path, book))
     }
 
@@ -81,9 +94,14 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser) =
       });
     }
 
+    span?.setStatus('ok');
   } catch (ex) {
+    Sentry.captureException(ex);
     // @ts-ignore
-    logseq.App.showMsg(ex.toString(), 'warning')
-    console.error(ex)
+    logseq.App.showMsg(ex.toString(), 'warning');
+    console.error(ex);
+    span?.setStatus('unknown_error');
+  } finally {
+    span?.finish();
   }
 }

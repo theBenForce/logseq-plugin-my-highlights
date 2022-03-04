@@ -2,6 +2,7 @@ import React from 'react';
 import * as kc from '@hadynz/kindle-clippings';
 import { BasicDialog, DialogAction, DialogActions, DialogHeader } from './Basic';
 import { syncBookHighlights } from '../../actions/syncBookHighlights';
+import * as Sentry from '@sentry/react';
 
 interface ImportBooksDialogProps {
   books: Array<kc.Book>;
@@ -23,10 +24,26 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
 
   const onImportBooks = async () => {
     const booksToImport = books.filter(({ title }) => selectedBooks.includes(title));
+    const transaction = Sentry.getCurrentHub()?.getScope()?.getTransaction();
+    const span = transaction?.startChild({
+      op: "onImportBooks",
+      description: "Import highlights from Kindle My Clippings file",
+      data: {
+        books: booksToImport.length,
+        available_books: books.length,
+        source: 'kindle_clippings',
+      }
+    });
 
     for (const book of booksToImport) {
-      await syncBookHighlights(book, window.logseq);
+      try {
+        await syncBookHighlights(book, window.logseq);
+      } catch (ex) {
+        Sentry.captureException(ex);
+      }
     }
+
+    span?.finish();
 
     onClose();
   };

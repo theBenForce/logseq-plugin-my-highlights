@@ -5,7 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as Sentry from "@sentry/react";
-import { BrowserTracing } from "@sentry/tracing";
+// import { BrowserTracing } from "@sentry/tracing";
 
 import { logseq as PL } from "../package.json";
 import { SettingsSchema } from "./settingsSchema";
@@ -16,7 +16,7 @@ const SentryDsn = import.meta.env.SENTRY_DSN as string;
 
 Sentry.init({
   dsn: SentryDsn,
-  integrations: [new BrowserTracing()],
+  integrations: [],
   environment: isDev ? 'dev' : 'prod',
   release: SentryRelease,
   tracesSampleRate: 1.0,
@@ -39,6 +39,9 @@ function main() {
   function createModel() {
     return {
       show() {
+        Sentry.captureEvent({
+
+        })
         logseq.showMainUI();
       },
     };

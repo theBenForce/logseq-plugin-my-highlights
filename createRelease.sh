@@ -17,6 +17,7 @@ echo "Create Sentry Release"
 npx sentry-cli releases new $SENTRY_RELEASE --url "https://github.com/theBenForce/logseq-plugin-my-highlights/releases/tag/v$NEXT_VERSION"
 npx sentry-cli releases set-commits --auto $SENTRY_RELEASE
 npx sentry-cli releases finalize $SENTRY_RELEASE
+npx sentry-cli releases deploys $SENTRY_RELEASE new -e prod
 
 echo "Create Build Artifact"
 zip -qq -r logseq-plugin-my-highlights-$NEXT_VERSION.zip dist docs icon.svg readme.md LICENSE package.json

@@ -1,15 +1,34 @@
 import React, { useRef } from "react";
-import { useAppVisible } from "./utils";
+import { useAppVisible } from "./hooks/useAppVisible";
 import * as kc from '@hadynz/kindle-clippings';
 import { BasicDialog, DialogAction, DialogActions, DialogHeader } from "./component/dialog/Basic";
 import { HighlightIcon } from "./icons/logo";
 import { ImportBooksDialog } from "./component/dialog/ImportBooks";
+import * as Sentry from '@sentry/react';
+import { Transaction } from '@sentry/types';
 
 function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const visible = useAppVisible();
   const [availableBooks, setAvailableBooks] = React.useState<Array<kc.Book> | null>(null);
   const [showImportBooks, setShowImportBooks] = React.useState<boolean>(false);
+  const [transaction, setTransaction] = React.useState<Transaction | null>(null);
+  
+  React.useEffect(() => {
+    if (transaction) {
+      transaction.finish();
+      setTransaction(null);
+    }
+
+    if (visible) {
+      const t = Sentry.startTransaction({
+        name: 'main-dialog',
+      });
+      
+      Sentry.getCurrentHub().configureScope(scope => scope.setSpan(t));
+      setTransaction(t);
+    }
+  }, [visible]);
 
   const onFileSelected: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     console.info('Open File', event.target.files);
