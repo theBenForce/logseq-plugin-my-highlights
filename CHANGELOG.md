@@ -1,3 +1,10 @@
+## [1.11.2](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.1...v1.11.2) (2022-03-04)
+
+
+### Bug Fixes
+
+* init sentry within App ([a1a395c](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/a1a395c29c403e83e6d033847fe256293b41ee73))
+
 ## [1.11.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.0...v1.11.1) (2022-03-04)
 
 
