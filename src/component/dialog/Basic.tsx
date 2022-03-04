@@ -2,10 +2,13 @@ import React from 'react';
 
 interface BasicDialogProps {
   onClose?: () => void;
+  show: boolean;
 }
 
-export const BasicDialog: React.FC<BasicDialogProps> = ({ children, onClose }) => {
+export const BasicDialog: React.FC<BasicDialogProps> = ({ children, show, onClose }) => {
   const innerRef = React.useRef<HTMLDivElement>(null);
+
+  if (!show) return null;
 
   return <main
         className="backdrop-filter backdrop-blur-md fixed inset-0 flex items-center justify-center"

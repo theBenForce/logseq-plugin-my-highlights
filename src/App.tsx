@@ -4,6 +4,7 @@ import * as kc from '@hadynz/kindle-clippings';
 import { BasicDialog, DialogAction, DialogActions, DialogHeader } from "./component/dialog/Basic";
 import { HighlightIcon } from "./icons/logo";
 import { ImportBooksDialog } from "./component/dialog/ImportBooks";
+import { KindleLoginDialog } from "./component/dialog/KindleLogin";
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from "@sentry/tracing";
 
@@ -19,36 +20,28 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-import { BrowserWindow, getCurrentWindow } from '@electron/remote';
-
 function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const visible = useAppVisible();
   const [availableBooks, setAvailableBooks] = React.useState<Array<kc.Book> | null>(null);
   const [showImportBooks, setShowImportBooks] = React.useState<boolean>(false);
+  const [showKindleLogin, setShowKindleLogin] = React.useState(false);
   Sentry.withScope(scope => scope.setTransactionName("MainDialog"))
 
-  const scrapeFromCloud = () => {
-    const modal = new BrowserWindow({
-      parent: getCurrentWindow(),
-      width: 450,
-      height: 730,
-      show: false,
-    });
+  // const scrapeFromCloud = () => {
+  //   modal.once('ready-to-show', () => {
+  //     modal.setTitle('Connect your Amazon account to Logseq');
+  //     modal.show();
+  //   });
 
-    modal.once('ready-to-show', () => {
-      modal.setTitle('Connect your Amazon account to Logseq');
-      modal.show();
-    });
+  //   modal.webContents.on('did-navigate', async (_event, url) => {
+  //     if (url.startsWith("https://read.amazon.com")) {
+  //       modal.close();
+  //     }
+  //   });
 
-    modal.webContents.on('did-navigate', async (_event, url) => {
-      if (url.startsWith("https://read.amazon.com")) {
-        modal.close();
-      }
-    });
-
-    modal.loadURL("https://read.amazon.com/notebook");
-  };
+  //   modal.loadURL("https://read.amazon.com/notebook");
+  // };
 
   const onFileSelected: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     console.info('Open File', event.target.files);
@@ -83,13 +76,30 @@ function App() {
 
   const hideImportBooks = () => {
     setShowImportBooks(false);
+  };
 
+  const hideKindleLogin = () => {
+    setShowKindleLogin(false);
+  };
+
+  const onShowKindleLogin = () => {
+    const w = window.open("https://read.amazon.com/notebook", "_empty");
+    if (w) {
+      // @ts-ignore
+      w.apis.on('did-navigate', (event, url) => console.info({ event, url }));
+      w.addEventListener('load', (event) => {
+        console.info(event);
+      });
+      debugger;
+      w.location.replace('https://read.amazon.com/notebook?asin=B01FR3UWXE&contentLimitState=&');
+    }
+    // setShowKindleLogin(true);
   }
 
   if (visible) {
     return (
       <>
-        <BasicDialog onClose={() => window.logseq.hideMainUI()}>
+        <BasicDialog show onClose={() => window.logseq.hideMainUI()}>
           <input ref={fileInputRef} type="file" accept='.txt' onChange={onFileSelected} hidden />
           <DialogHeader title="Import Highlights" icon={<HighlightIcon />} trailing={<a href="https://www.buymeacoffee.com/theBenForce" target="_blank">
             <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="BuyMeACoffee" width="140" />
@@ -97,11 +107,12 @@ function App() {
 
           <DialogActions>
             <DialogAction onClick={showOpenFile} label="Load Clippings File" />
-            <DialogAction onClick={scrapeFromCloud} label="Load From Cloud" />
+            <DialogAction onClick={onShowKindleLogin} label="Load From Cloud" />
           </DialogActions>
         </BasicDialog>
 
         <ImportBooksDialog show={showImportBooks} onClose={hideImportBooks} books={availableBooks ?? []} />
+        <KindleLoginDialog show={showKindleLogin} onClose={hideKindleLogin} />
       </>
     );
   }
