@@ -1,3 +1,10 @@
+## [1.11.8](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.7...v1.11.8) (2022-03-04)
+
+
+### Bug Fixes
+
+* trace highlight imports ([82cfe91](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/82cfe91ff7fa05e3e0c5521148b515bd9beb1e3b))
+
 ## [1.11.7](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.6...v1.11.7) (2022-03-04)
 
 
