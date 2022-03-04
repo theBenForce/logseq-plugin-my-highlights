@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.0...v1.11.1) (2022-03-04)
+
+
+### Bug Fixes
+
+* move sentry to iframe ([f9af268](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/f9af2685e8abb95ccc64a2841ca8ba23330469d9))
+
 # [1.11.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.10.0...v1.11.0) (2022-03-04)
 
 
