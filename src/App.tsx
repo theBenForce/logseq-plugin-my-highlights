@@ -11,13 +11,6 @@ const isDev = process.env.NODE_ENV === "development";
 const SentryRelease = import.meta.env.VERSION as string;
 const SentryDsn = import.meta.env.SENTRY_DSN as string;
 
-Sentry.init({
-  dsn: SentryDsn,
-  integrations: [],
-  environment: isDev ? 'dev' : 'prod',
-  release: SentryRelease,
-  tracesSampleRate: 1.0,
-});
 
 function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -25,6 +18,16 @@ function App() {
   const [availableBooks, setAvailableBooks] = React.useState<Array<kc.Book> | null>(null);
   const [showImportBooks, setShowImportBooks] = React.useState<boolean>(false);
   const [transaction, setTransaction] = React.useState<Transaction | null>(null);
+
+  React.useEffect(() => {
+    Sentry.init({
+      dsn: SentryDsn,
+      integrations: [],
+      environment: isDev ? 'dev' : 'prod',
+      release: SentryRelease,
+      tracesSampleRate: 1.0,
+    });
+  });
   
   React.useEffect(() => {
     if (transaction) {
