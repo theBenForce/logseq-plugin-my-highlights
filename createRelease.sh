@@ -3,13 +3,12 @@
 export NEXT_VERSION=$1
 
 echo "Build Plugin"
-echo VERSION=$NEXT_VERSION > .env.production.local
+echo VERSION=$NEXT_VERSION >> .env
 export SENTRY_RELEASE="$SENTRY_PROJECT@$NEXT_VERSION"
-echo "\nVITE_SENTRY_RELEASE=$SENTRY_RELEASE" >> .env.production.local
-echo "\nVITE_SENTRY_DSN=$SENTRY_DSN" >> .env.production.local
+echo "VITE_SENTRY_RELEASE=$SENTRY_RELEASE" >> .env
+echo "VITE_SENTRY_DSN=$SENTRY_DSN" >> .env
 echo "Environment"
-echo $(cat ./.env.production.local)
-echo $(cat ./.env)
+echo $(cat --show-ends ./.env)
 
 echo "Building"
 pnpm build
