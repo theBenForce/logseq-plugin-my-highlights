@@ -5,7 +5,8 @@ export NEXT_VERSION=$1
 echo "Build Plugin"
 echo VERSION=$NEXT_VERSION > .env.production.local
 export SENTRY_RELEASE="$SENTRY_PROJECT@$NEXT_VERSION"
-echo "\nSENTRY_RELEASE=$SENTRY_RELEASE" >> .env.production.local
+echo "\nVITE_SENTRY_RELEASE=$SENTRY_RELEASE" >> .env.production.local
+echo "\nVITE_SENTRY_DSN=$SENTRY_DSN" >> .env.production.local
 echo "Environment"
 echo $(cat ./.env.production.local)
 echo $(cat ./.env)

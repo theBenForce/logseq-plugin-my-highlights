@@ -11,8 +11,8 @@ import * as Sentry from '@sentry/react';
 
 
 const isDev = process.env.NODE_ENV === "development";
-const SentryRelease = import.meta.env.VERSION as string;
-const SentryDsn = import.meta.env.SENTRY_DSN as string;
+const SentryRelease = import.meta.env.VITE_SENTRY_RELEASE as string;
+const SentryDsn = import.meta.env.VITE_SENTRY_DSN as string;
 
 // @ts-expect-error
 const css = (t, ...args) => String.raw(t, ...args);
