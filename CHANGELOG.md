@@ -1,3 +1,10 @@
+## [1.11.7](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.6...v1.11.7) (2022-03-04)
+
+
+### Bug Fixes
+
+* upload source maps ([5bd9069](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/5bd906943c51bab53e7aba7f0326cb8211172814))
+
 ## [1.11.6](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.5...v1.11.6) (2022-03-04)
 
 
