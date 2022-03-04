@@ -7,6 +7,18 @@ import { ImportBooksDialog } from "./component/dialog/ImportBooks";
 import * as Sentry from '@sentry/react';
 import { Transaction } from '@sentry/types';
 
+const isDev = process.env.NODE_ENV === "development";
+const SentryRelease = import.meta.env.VERSION as string;
+const SentryDsn = import.meta.env.SENTRY_DSN as string;
+
+Sentry.init({
+  dsn: SentryDsn,
+  integrations: [],
+  environment: isDev ? 'dev' : 'prod',
+  release: SentryRelease,
+  tracesSampleRate: 1.0,
+});
+
 function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const visible = useAppVisible();
