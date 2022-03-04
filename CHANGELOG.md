@@ -1,3 +1,10 @@
+## [1.11.3](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.2...v1.11.3) (2022-03-04)
+
+
+### Bug Fixes
+
+* move sentry init to main ([f1fea42](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/f1fea426fd0f351b5ba027987f0901e3285a1262))
+
 ## [1.11.2](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.1...v1.11.2) (2022-03-04)
 
 
