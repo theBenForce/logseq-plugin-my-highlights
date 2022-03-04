@@ -1,3 +1,10 @@
+## [1.11.5](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.4...v1.11.5) (2022-03-04)
+
+
+### Bug Fixes
+
+* inject vite variables ([d3a53d8](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/d3a53d8b3d296d1466bc53ecfedce1353bd46040))
+
 ## [1.11.4](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.3...v1.11.4) (2022-03-04)
 
 
