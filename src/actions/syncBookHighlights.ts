@@ -33,6 +33,7 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
     path = renderTemplate(path, {
       type: 'book',
       title: book.title,
+      author: book.author ?? logseq.settings?.default_author ?? 'UnknownAuthor',
       zettel,
     });
 
