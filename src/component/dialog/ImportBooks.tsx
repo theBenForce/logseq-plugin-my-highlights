@@ -72,7 +72,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
     }
   };
   
-  return <BasicDialog show={show} onClose={onClose}>
+  return <BasicDialog show={Boolean(show)} onClose={onClose}>
     <DialogHeader title='Import Book Highlights' />
     <div className="px-6 flex items-center gap-1">
       <input type='checkbox' id="chkAllSelected" checked={allChecked} onChange={onToggleAll} />
