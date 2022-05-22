@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.8...v1.12.0) (2022-05-22)
+
+
+### Features
+
+* pass author to path template ([0daa194](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/0daa1943a9bf7bb0a1f649881a7e80565853db3d))
+
 ## [1.11.8](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.7...v1.11.8) (2022-03-04)
 
 
