@@ -83,17 +83,17 @@ function App() {
   };
 
   const onShowKindleLogin = () => {
-    const w = window.open("https://read.amazon.com/notebook", "_empty");
-    if (w) {
-      // @ts-ignore
-      w.apis.on('did-navigate', (event, url) => console.info({ event, url }));
-      w.addEventListener('load', (event) => {
-        console.info(event);
-      });
-      debugger;
-      w.location.replace('https://read.amazon.com/notebook?asin=B01FR3UWXE&contentLimitState=&');
-    }
-    // setShowKindleLogin(true);
+    // const w = window.open("https://read.amazon.com/notebook", "_empty");
+    // if (w) {
+    //   // @ts-ignore
+    //   w.apis.on('did-navigate', (event, url) => console.info({ event, url }));
+    //   w.addEventListener('load', (event) => {
+    //     console.info(event);
+    //   });
+    //   debugger;
+    //   w.location.replace('https://read.amazon.com/notebook?asin=B01FR3UWXE&contentLimitState=&');
+    // }
+    setShowKindleLogin(true);
   }
 
   if (visible) {
