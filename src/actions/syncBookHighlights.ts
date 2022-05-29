@@ -1,7 +1,6 @@
 
 import * as kc from '@hadynz/kindle-clippings';
 import { IBatchBlock, ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
-import { goToPage } from '../utils/goToPage';
 import hash from 'hash.js';
 import { EntryType } from '@hadynz/kindle-clippings/dist/blocks/ParsedBlock';
 import { renderTemplate } from '../utils/renderTemplate';
@@ -10,11 +9,13 @@ import * as Sentry from '@sentry/react';
 import { Transaction } from '@sentry/tracing';
 import { blocksContainHighlight } from '../utils/containsHighlight';
 
-export const createBookPageProperties = (title: string, book: kc.Book) => `title:: [[${title}]]
-alias:: ${book.title.replaceAll('/', '_').split(':')[0]}
-author:: "${book.author}"
-last_sync:: ${new Date().toISOString()}
-type:: Book`;
+export const createBookPageProperties = (title: string, book: kc.Book) => ({
+  title,
+  alias: `${book.title.replaceAll('/', '_').split(':')[0]} - Highlights`,
+  author: book.author,
+  last_sync: new Date().toISOString(),
+  type: 'Book'
+});
 
 export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, transaction?: Transaction) => {
   console.info(`Importing from ${book.title}`);
@@ -44,23 +45,22 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
     });
 
     console.info(`Loading path ${path}`);
-    await goToPage(path, logseq);
+    // await goToPage(path, logseq);
     
-    const page = await logseq.Editor.getCurrentPage();
-    const pageBlocksTree = await logseq.Editor.getCurrentPageBlocksTree()
+    let page = await logseq.Editor.getPage(path, { includeChildren: true });
     
-    let targetBlock = pageBlocksTree[0]!;
-    
-    if (!pageBlocksTree.length) {
-      console.info(`Creating new page block`);
-      // @ts-ignore
-      targetBlock = await logseq.Editor.insertBlock(page?.name, createBookPageProperties(path, book), { isPageBlock: true });
+    if (!page) {
+      console.info(`Creating new page`);
+      page = await logseq.Editor.createPage(path, createBookPageProperties(path, book), {createFirstBlock: true});
+      span?.setData('is_new', true);
     } else {
-      console.info('SKIP: Updating page block');
-      span?.setData('is_new', false);
-      // await logseq.Editor.updateBlock(targetBlock.uuid, createBookPageProperties(path, book))
-      // TODO: Get last block
+      const pageBlocksTree = await logseq.Editor.getPageBlocksTree(page!.name);
+      const firstBlock = pageBlocksTree[0];
+
+      await logseq.Editor.upsertBlockProperty(firstBlock.uuid, "last_sync", new Date().toISOString());
     }
+    
+    const pageBlocksTree = await logseq.Editor.getPageBlocksTree(page!.name);
 
     updatePage?.finish();
 
@@ -88,6 +88,7 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
       }
     });
 
+    console.info(`Creating blocks`);
     let blocks = book.annotations
       .sort((a, b) => (a.page?.from ?? 0) - (b.page?.from ?? 0))
       .reduce((updates, annotation) => {
@@ -118,10 +119,14 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
         }
       });
 
-      await logseq.Editor.insertBatchBlock(targetBlock.uuid, blocks, {
-        before: false,
-        sibling: true
-      });
+      // await logseq.Editor.insertBatchBlock(targetBlock.uuid, blocks, {
+      //   before: false,
+      //   sibling: true
+      // });
+
+      for (const block of blocks) {
+        await logseq.Editor.appendBlockInPage(page!.uuid, block.content, { properties: block.properties });
+      }
 
       insertBlocks?.finish();
     }
