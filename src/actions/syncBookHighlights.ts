@@ -8,6 +8,7 @@ import { renderTemplate } from '../utils/renderTemplate';
 import { createZettelId } from '../utils/zettelId';
 import * as Sentry from '@sentry/react';
 import { Transaction } from '@sentry/tracing';
+import { blocksContainHighlight } from '../utils/containsHighlight';
 
 export const createBookPageProperties = (title: string, book: kc.Book) => `title:: [[${title}]]
 alias:: ${book.title.replaceAll('/', '_').split(':')[0]}
@@ -58,6 +59,7 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
       console.info('SKIP: Updating page block');
       span?.setData('is_new', false);
       // await logseq.Editor.updateBlock(targetBlock.uuid, createBookPageProperties(path, book))
+      // TODO: Get last block
     }
 
     updatePage?.finish();
@@ -86,7 +88,9 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
       }
     });
 
-    let blocks = book.annotations.sort((a, b) => (a.page?.from ?? 0) - (b.page?.from ?? 0)).reduce((updates, annotation) => {
+    let blocks = book.annotations
+      .sort((a, b) => (a.page?.from ?? 0) - (b.page?.from ?? 0))
+      .reduce((updates, annotation) => {
       const content = annotation.content;
       const type = annotation.type;
       const start = annotation.location?.from;
@@ -99,31 +103,29 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
       }
 
       return updates;
-    }, [] as Array<IBatchBlock>);
+      }, [] as Array<IBatchBlock>)
+      .filter((b) => !blocksContainHighlight(b.properties?.highlight_id, pageBlocksTree));
 
     createHighlightBlocks?.setData('blocks', blocks.length).finish();
     console.info(`Created ${blocks.length} blocks`);
 
-    for (const block of pageBlocksTree) {
-      blocks = blocks.filter((b) => b.properties?.highlight_id !== block.properties?.highlightId);
-    }
-
-    console.info(`Filtered block count: ${blocks.length}`);
-
-    const insertBlocks = span?.startChild({
-      op: 'insertBlocks',
-      description: 'Insert Blocks',
-      data: {
-        blocks: blocks.length
-      }
-    });
     if (blocks.length) {
+      const insertBlocks = span?.startChild({
+        op: 'insertBlocks',
+        description: 'Insert Blocks',
+        data: {
+          blocks: blocks.length
+        }
+      });
+
       await logseq.Editor.insertBatchBlock(targetBlock.uuid, blocks, {
+        before: false,
         sibling: true
       });
+
+      insertBlocks?.finish();
     }
 
-    insertBlocks?.finish();
 
     span?.setStatus('ok');
     console.info(`Done importing ${book.title}`);
