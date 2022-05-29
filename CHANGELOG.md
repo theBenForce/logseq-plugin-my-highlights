@@ -1,3 +1,15 @@
+# [1.13.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.12.0...v1.13.0) (2022-05-29)
+
+
+### Bug Fixes
+
+* append highlights to end ([11dd052](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/11dd0522eb389491982a415920f3e24e4a019c73))
+
+
+### Features
+
+* search children for highlight id ([c50fdec](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/c50fdeccd74db968aaa94a8a969e3b60baf866fe))
+
 # [1.12.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.11.8...v1.12.0) (2022-05-22)
 
 
