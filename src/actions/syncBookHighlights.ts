@@ -119,11 +119,6 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
         }
       });
 
-      // await logseq.Editor.insertBatchBlock(targetBlock.uuid, blocks, {
-      //   before: false,
-      //   sibling: true
-      // });
-
       for (const block of blocks) {
         await logseq.Editor.appendBlockInPage(page!.uuid, block.content, { properties: block.properties });
       }
