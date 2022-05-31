@@ -1,3 +1,18 @@
+# [1.14.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.13.0...v1.14.0) (2022-05-31)
+
+
+### Bug Fixes
+
+* set release branch to main ([e70dd9f](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/e70dd9fb7d4ec42219dbeae17ec89c18f04d90a4))
+
+
+### Features
+
+* move recent books to top of import list ([3ca9eee](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/3ca9eee22636e3af54f52359a7c0584e70bf4cee))
+* new clipping parser ([6f887be](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/6f887bea9c513fe44902ea5b7cc439c008b95b27))
+* parse clipping metadata ([24a0646](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/24a0646c77affda6b313a8b7f3ea7118058fdcba))
+* use new parser ([9e66271](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/9e662716ede899ec3300f54fcec37328d5aee46d))
+
 # [1.13.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.12.0...v1.13.0) (2022-05-29)
 
 
