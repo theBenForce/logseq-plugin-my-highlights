@@ -8,11 +8,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preinstall": "npx only-allow pnpm"
+    "test": "jest"
   },
   "license": "MIT",
   "dependencies": {
-    "@hadynz/kindle-clippings": "^2.0.2",
     "@logseq/libs": "0.0.6",
     "@sentry/react": "^6.19.7",
     "@sentry/tracing": "^6.19.7",
@@ -28,6 +27,7 @@
     "@semantic-release/git": "10.0.1",
     "@semantic-release/npm": "9.0.0",
     "@sentry/cli": "^1.73.1",
+    "@types/jest": "^27.5.1",
     "@types/luxon": "^2.3.0",
     "@types/node": "17.0.1",
     "@types/react": "17.0.39",
@@ -38,7 +38,9 @@
     "conventional-changelog-conventionalcommits": "4.6.3",
     "eslint": "8.10.0",
     "eslint-plugin-react": "7.29.2",
+    "jest": "^28.1.0",
     "semantic-release": "19.0.2",
+    "ts-jest": "^28.0.3",
     "typescript": "4.5.5",
     "vite": "2.8.4",
     "vite-plugin-react-svg": "^0.2.0",

@@ -1,15 +1,14 @@
 
-import * as kc from '@hadynz/kindle-clippings';
 import { IBatchBlock, ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
 import hash from 'hash.js';
-import { EntryType } from '@hadynz/kindle-clippings/dist/blocks/ParsedBlock';
 import { renderTemplate } from '../utils/renderTemplate';
 import { createZettelId } from '../utils/zettelId';
 import * as Sentry from '@sentry/react';
 import { Transaction } from '@sentry/tracing';
 import { blocksContainHighlight } from '../utils/containsHighlight';
+import { AnnotationType, KindleBook } from '../utils/parseKindleHighlights';
 
-export const createBookPageProperties = (title: string, book: kc.Book) => ({
+export const createBookPageProperties = (title: string, book: KindleBook) => ({
   title,
   alias: `${book.title.replaceAll('/', '_').split(':')[0]} - Highlights`,
   author: book.author,
@@ -17,7 +16,7 @@ export const createBookPageProperties = (title: string, book: kc.Book) => ({
   type: 'Book'
 });
 
-export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, transaction?: Transaction) => {
+export const syncBookHighlights = async (book: KindleBook, logseq: ILSPluginUser, transaction?: Transaction) => {
   console.info(`Importing from ${book.title}`);
   const span = transaction?.startChild({
     op: "syncBookHighlights",
@@ -64,9 +63,9 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
 
     updatePage?.finish();
 
-    function addContentBlock(content: string, type: EntryType, start?: number, page?: string) {
-      const highlight_id = hash.sha224().update([type, start, content].filter(Boolean).join(':')).digest('hex');
-      const icon = type === 'HIGHLIGHT' ? '📌' : type === 'NOTE' ? '📝' : type === 'BOOKMARK' ? '🎯' : '❓';
+    function addContentBlock(content: string, type: AnnotationType, start?: number, page?: number) {
+      const highlight_id = hash.sha224().update([type.toUpperCase(), start, content].filter(Boolean).join(':')).digest('hex');
+      const icon = type === 'Highlight' ? '📌' : type === 'Note' ? '📝' : type === 'Bookmark' ? '🎯' : '❓';
 
       const properties: Record<string, unknown> = { highlight_id };
 
@@ -90,18 +89,14 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
 
     console.info(`Creating blocks`);
     let blocks = book.annotations
-      .sort((a, b) => (a.page?.from ?? 0) - (b.page?.from ?? 0))
+      .sort((a, b) => (a.page ?? 0) - (b.page ?? 0))
       .reduce((updates, annotation) => {
-      const content = annotation.content;
+      const content = annotation.content ?? '';
       const type = annotation.type;
-      const start = annotation.location?.from;
-      const page = annotation.page?.display;
+      const start = annotation.location?.start;
+      const page = annotation.page;
 
       updates.push(addContentBlock(content, type, start, page));
-
-      if (annotation.note) {
-        updates.push(addContentBlock(annotation.note, 'NOTE', start, page));
-      }
 
       return updates;
       }, [] as Array<IBatchBlock>)
@@ -118,11 +113,6 @@ export const syncBookHighlights = async (book: kc.Book, logseq: ILSPluginUser, t
           blocks: blocks.length
         }
       });
-
-      // await logseq.Editor.insertBatchBlock(targetBlock.uuid, blocks, {
-      //   before: false,
-      //   sibling: true
-      // });
 
       for (const block of blocks) {
         await logseq.Editor.appendBlockInPage(page!.uuid, block.content, { properties: block.properties });
