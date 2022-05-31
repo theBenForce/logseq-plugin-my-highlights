@@ -12,7 +12,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@hadynz/kindle-clippings": "^2.0.2",
     "@logseq/libs": "0.0.6",
     "@sentry/react": "^6.19.7",
     "@sentry/tracing": "^6.19.7",

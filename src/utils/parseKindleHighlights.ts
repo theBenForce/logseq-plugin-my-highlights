@@ -1,7 +1,9 @@
 
-export interface KindleHighlight {
+export type AnnotationType = 'Highlight' | 'Note' | 'Bookmark';
+
+export interface KindleAnnotation {
   timestamp: Date;
-  type: 'Highlight' | 'Note' | 'Bookmark';
+  type: AnnotationType;
   content?: string;
   page?: number;
   location: {
@@ -11,8 +13,8 @@ export interface KindleHighlight {
 }
 
 export interface KindleBook extends BookMetadata {
-  lastHighlight: Date;
-  highlights: Array<KindleHighlight>;
+  lastAnnotation: Date;
+  annotations: Array<KindleAnnotation>;
 }
 
 interface BookMetadata {
@@ -20,19 +22,16 @@ interface BookMetadata {
   author?: string;
 }
 
-const SEPARATOR = '\n==========\n';
-
 export const parseTitleLine = (titleLine: string) => {
   const title = titleLine.replace(/\([^)]+\)$/g, '').trim();
-  const authorMatches = /\((?<name>[^)]+)\)$/g.exec(titleLine);
+  const authorMatches = /\((?<author>[^)]+)\)$/g.exec(titleLine);
 
-  // @ts-ignore
-  const author = authorMatches?.groups?.["name"]?.trim();
+  const author = authorMatches?.groups?.["author"]?.trim();
 
   return { title, author };
 }
 
-export const parseMetaLine = (metaLine: string): KindleHighlight => {
+export const parseMetaLine = (metaLine: string): KindleAnnotation => {
   const typeRx = /^- Your\s(?<type>Note|Highlight|Bookmark)/;
   const pageRx = /page\s+(?<page>\d+)/;
   const locationRx = /Location\s+(?<start>\d+)(-(?<end>\d+))?/;
@@ -80,18 +79,18 @@ export const parseMetaLine = (metaLine: string): KindleHighlight => {
       start,
       end
     }
-  } as KindleHighlight;
+  } as KindleAnnotation;
 }
 
-export const parseClipping = (clipping: string): KindleHighlight & BookMetadata => {
+export const parseClipping = (clipping: string): KindleAnnotation & BookMetadata => {
   const lines = clipping.trim().split(/\n/);
-  console.info({ lines });
+  
   if (lines.length < 2) {
     throw new Error(`Could not parse clipping, not enough lines: ${clipping}`);
   }
 
-  const title = parseTitleLine(lines.shift()!);
-  const metadata = parseMetaLine(lines.shift()!);
+  const title = parseTitleLine(lines.shift()!.trim());
+  const metadata = parseMetaLine(lines.shift()!.trim());
 
   const content = lines.join('\n').trim();
 
@@ -103,7 +102,7 @@ export const parseClipping = (clipping: string): KindleHighlight & BookMetadata 
 }
 
 export const parseKindleHighlights = (content: string): Array<KindleBook> => {
-  const clippings = content.split(/^==========$/gm).map(parseClipping);
+  const clippings = content.split(/^==========$/gm).filter(line => Boolean(line.trim())).map(parseClipping);
   return clippings.reduce((result, clipping) => {
     let book = result.find((b) => b.title === clipping.title && b.author === clipping.author);
 
@@ -111,17 +110,17 @@ export const parseKindleHighlights = (content: string): Array<KindleBook> => {
       book = {
         title: clipping.title,
         author: clipping.author,
-        highlights: [],
-        lastHighlight: clipping.timestamp
+        annotations: [],
+        lastAnnotation: clipping.timestamp
       };
       result.push(book);
     }
 
-    if (book.lastHighlight < clipping.timestamp) {
-      book.lastHighlight = clipping.timestamp;
+    if (book.lastAnnotation < clipping.timestamp) {
+      book.lastAnnotation = clipping.timestamp;
     }
 
-    book.highlights.push({
+    book.annotations.push({
       content: clipping.content,
       location: clipping.location,
       timestamp: clipping.timestamp,
@@ -130,5 +129,7 @@ export const parseKindleHighlights = (content: string): Array<KindleBook> => {
     });
 
     return result;
-  }, [] as Array<KindleBook>);
+  }, [] as Array<KindleBook>)
+    // @ts-ignore
+    .sort((a, b) => b.lastAnnotation - a.lastAnnotation);
 }

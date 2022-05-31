@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useAppVisible } from "./hooks/useAppVisible";
-import * as kc from '@hadynz/kindle-clippings';
+import { KindleBook, parseKindleHighlights } from "./utils/parseKindleHighlights";
 import { BasicDialog, DialogAction, DialogActions, DialogHeader } from "./component/dialog/Basic";
 import { HighlightIcon } from "./icons/logo";
 import { ImportBooksDialog } from "./component/dialog/ImportBooks";
@@ -23,7 +23,7 @@ Sentry.init({
 function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const visible = useAppVisible();
-  const [availableBooks, setAvailableBooks] = React.useState<Array<kc.Book> | null>(null);
+  const [availableBooks, setAvailableBooks] = React.useState<Array<KindleBook> | null>(null);
   const [showImportBooks, setShowImportBooks] = React.useState<boolean>(false);
   Sentry.withScope(scope => scope.setTransactionName("MainDialog"))
 
@@ -39,11 +39,10 @@ function App() {
 
     reader.onload = () => {
       console.info(`File loaded, parsing`);
-      const rawRows = kc.readMyClippingsFile(reader.result as string);
-      const books = kc.groupToBooks(rawRows);
+      const books = parseKindleHighlights(reader.result as string);
 
       console.info(`Open select book dialog`);
-      setAvailableBooks(books.reverse());
+      setAvailableBooks(books);
       setShowImportBooks(true);
 
       // @ts-ignore

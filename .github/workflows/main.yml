@@ -30,6 +30,8 @@ jobs:
         with:
           version: 6.0.2
       - run: yarn install
+      - name: Test
+        run: yarn test
       - name: Install zip
         uses: montudor/action-zip@v1
       - name: Release

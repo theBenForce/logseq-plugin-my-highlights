@@ -1,11 +1,11 @@
 import React from 'react';
-import * as kc from '@hadynz/kindle-clippings';
 import { BasicDialog, DialogAction, DialogActions, DialogHeader } from './Basic';
 import { syncBookHighlights } from '../../actions/syncBookHighlights';
 import * as Sentry from '@sentry/react';
+import { KindleBook } from '../../utils/parseKindleHighlights';
 
 interface ImportBooksDialogProps {
-  books: Array<kc.Book>;
+  books: Array<KindleBook>;
   show?: boolean;
   onClose: () => void;
 }
@@ -80,11 +80,14 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
         <div className="truncate grow">All</div>
       </div>
       <div className="p-4 pt-2 scroll-auto h-96 overflow-y-auto flex flex-col gap-1">
-        {books.map((book) => <div className='border rounded flex items-center gap-1 px-2' key={book.title}>
+        {books.map((book) => <div className='border rounded flex flex-row grow items-center gap-1 px-2' key={book.title}>
           <input type='checkbox' checked={selectedBooks.includes(book.title)} onChange={onBookSelected(book.title)} />
-          <div className="flex-col grow truncate">
+          <div className="flex flex-col grow truncate" style={{flexGrow: 1}}>
             <div className="truncate text-lg">{book.title}</div>
-            {book.author && <div className="truncate text-sm">{book.author}</div>}
+            <div className="flex grow flex-row gap-1 justify-between">
+              {book.author && <div className="truncate text-sm flex-1 grow">{book.author}</div>}
+              <div className='text-sm'>Last Highlight {book.lastAnnotation.toLocaleDateString()}</div>
+            </div>
           </div>
         </div>)}
       </div>
