@@ -1,5 +1,5 @@
 
-import { parseClipping, parseTitleLine, parseMetaLine } from "./parseKindleHighlights";
+import { parseClipping, parseTitleLine, parseMetaLine, parseKindleHighlights } from "./parseKindleHighlights";
 
 const CLIPPING_1 = `How to Take Smart Notes: One Simple Technique to Boost Writing, Learning and Thinking – for Students, Academics and Nonfiction Book Writers (Ahrens, Sönke)
 - Your Highlight on page 2 | Location 129-130 | Added on Tuesday, August 17, 2021 5:53:38 AM
@@ -17,6 +17,13 @@ const NOTE_CLIPPING = `Effective Notetaking (Study Skills Book 1) (McPherson, Fi
 Thinking about a subject before reading about it can increase retention.`;
 
 describe('parseKindleHighlights', () => {
+  describe('parseKindleHighlights', () => {
+    it('should combine highlights from the same book', () => {
+      const result = parseKindleHighlights([CLIPPING_1, BOOKMARK_CLIPPING, NOTE_CLIPPING].join('\n==========\n'));
+      expect(result).toHaveLength(2);
+    });
+  });
+
   describe('parseMetaLine', () => {
     const META_LINE = '- Your Note on page 7 | Location 64 | Added on Monday, August 23, 2021 6:52:21 AM';
 

@@ -2,7 +2,7 @@
 export interface KindleHighlight {
   timestamp: Date;
   type: 'Highlight' | 'Note' | 'Bookmark';
-  content: string;
+  content?: string;
   page?: number;
   location: {
     start: number;
@@ -17,15 +17,17 @@ export interface KindleBook extends BookMetadata {
 
 interface BookMetadata {
   title: string;
-  author: string;
+  author?: string;
 }
+
+const SEPARATOR = '\n==========\n';
 
 export const parseTitleLine = (titleLine: string) => {
   const title = titleLine.replace(/\([^)]+\)$/g, '').trim();
   const authorMatches = /\((?<name>[^)]+)\)$/g.exec(titleLine);
 
   // @ts-ignore
-  const author = authorMatches.groups["name"]!.trim();
+  const author = authorMatches?.groups?.["name"]?.trim();
 
   return { title, author };
 }
@@ -82,8 +84,9 @@ export const parseMetaLine = (metaLine: string): KindleHighlight => {
 }
 
 export const parseClipping = (clipping: string): KindleHighlight & BookMetadata => {
-  const lines = clipping.split('\n');
-  if (lines.length < 4) {
+  const lines = clipping.trim().split(/\n/);
+  console.info({ lines });
+  if (lines.length < 2) {
     throw new Error(`Could not parse clipping, not enough lines: ${clipping}`);
   }
 
@@ -101,8 +104,31 @@ export const parseClipping = (clipping: string): KindleHighlight & BookMetadata 
 
 export const parseKindleHighlights = (content: string): Array<KindleBook> => {
   const clippings = content.split(/^==========$/gm).map(parseClipping);
-  const result = [] as Array<KindleBook>;
+  return clippings.reduce((result, clipping) => {
+    let book = result.find((b) => b.title === clipping.title && b.author === clipping.author);
 
+    if (!book) {
+      book = {
+        title: clipping.title,
+        author: clipping.author,
+        highlights: [],
+        lastHighlight: clipping.timestamp
+      };
+      result.push(book);
+    }
 
-  return result;
+    if (book.lastHighlight < clipping.timestamp) {
+      book.lastHighlight = clipping.timestamp;
+    }
+
+    book.highlights.push({
+      content: clipping.content,
+      location: clipping.location,
+      timestamp: clipping.timestamp,
+      type: clipping.type,
+      page: clipping.page
+    });
+
+    return result;
+  }, [] as Array<KindleBook>);
 }
