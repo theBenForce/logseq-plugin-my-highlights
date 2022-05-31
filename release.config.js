@@ -15,7 +15,7 @@ VITE_SENTRY_ENVIRONEMT=prod\n
 SENTRY_LOG_LEVEL=info\n`, 'utf-8');
 
 module.exports = {
-  branches: ["master"],
+  branches: ["main"],
   plugins: [
     [
       "@semantic-release/commit-analyzer",
