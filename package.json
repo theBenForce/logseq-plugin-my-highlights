@@ -15,6 +15,8 @@
     "@logseq/libs": "0.0.6",
     "@sentry/react": "^6.19.7",
     "@sentry/tracing": "^6.19.7",
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.11",
     "hash.js": "^1.1.7",
     "luxon": "^2.3.1",
     "react": "^17.0.2",
