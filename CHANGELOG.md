@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.15.0...v1.15.1) (2022-06-15)
+
+
+### Bug Fixes
+
+* set build target to esnext ([40bf01c](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/40bf01cdcbe2ca53b24d745fda36d27dac9e34db))
+
 # [1.15.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.14.0...v1.15.0) (2022-06-15)
 
 
