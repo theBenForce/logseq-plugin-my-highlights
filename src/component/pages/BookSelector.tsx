@@ -46,7 +46,7 @@ export const BookSelector: React.FC<BookSelectorParams> = ({books, selectedBooks
         <div className="truncate grow">All</div>
       </div>
       <div className="p-4 pt-2 scroll-auto h-96 overflow-y-auto flex flex-col gap-1">
-        {books.map((book) => <div className='border rounded flex flex-row grow items-center gap-1 px-2' key={book.title}>
+        {books.map((book) => <div className='border rounded flex flex-row grow items-center gap-1 px-2' key={book.bookId}>
           <input type='checkbox' checked={selectedBooks.some(other => getBookId(other) === getBookId(book))} onChange={onBookSelected(book)} />
           <div className="flex flex-col grow truncate" style={{flexGrow: 1}}>
             <div className="truncate text-lg">{book.title}</div>

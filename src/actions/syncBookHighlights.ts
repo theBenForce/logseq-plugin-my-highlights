@@ -3,6 +3,7 @@ import { IBatchBlock, IEditorProxy, ILSPluginUser } from '@logseq/libs/dist/LSPl
 import * as Sentry from '@sentry/react';
 import { Transaction } from '@sentry/tracing';
 import hash from 'hash.js';
+import { BookPageProperties } from '../constants';
 import { getBookPage } from '../hooks/useImportBooks';
 import { blocksContainHighlight } from '../utils/containsHighlight';
 import { AnnotationType, KindleBook } from '../utils/parseKindleHighlights';
@@ -32,6 +33,13 @@ const updateBookDetails = async ({ book, uuid, editor }: { book: KindleBook; uui
   if (book.imageUrl) {
     await editor.upsertBlockProperty(uuid, 'cover', `![${book.title}](${book.imageUrl})`);
   }
+
+
+  const existingIds: Array<string> = (await editor.getBlockProperty(uuid, BookPageProperties.SourceBookIds)) ?? [];
+
+  if (!existingIds?.includes(book.bookId)) {
+    await editor.upsertBlockProperty(uuid, BookPageProperties.SourceBookIds, [...existingIds, book.bookId]);
+  }
 };
 
 export const syncBookHighlights = async ({book, logseq, transaction}: SyncBookHighlightsParams) => {
@@ -47,10 +55,13 @@ export const syncBookHighlights = async ({book, logseq, transaction}: SyncBookHi
   });
 
   try {
-    const { page, pageBlocksTree } = await getBookPage(logseq, book);
-  const firstBlock = pageBlocksTree[0];
+    const { page, pageBlocksTree } = await getBookPage({ logseq, book });
+    const firstBlock = pageBlocksTree[0];
 
-  await logseq.Editor.upsertBlockProperty(firstBlock.uuid, "last_sync", new Date().toISOString());
+    await logseq.Editor.upsertBlockProperty(firstBlock.uuid, "last_sync", new Date().toISOString());
+    await updateBookDetails({
+      book, uuid: firstBlock.uuid, editor: logseq.Editor
+    });
 
     function addContentBlock(content: string, type: AnnotationType, start?: number, page?: number) {
       const highlight_id = hash.sha224().update([type.toUpperCase(), start, content].filter(Boolean).join(':')).digest('hex');

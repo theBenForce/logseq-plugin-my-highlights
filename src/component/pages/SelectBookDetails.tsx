@@ -1,36 +1,28 @@
-import React from 'react';
-import { useBookDetailsSearch } from '../../hooks/useBookDetailsSearch';
-import { getBookId } from '../../utils/getBookId';
-import { remoteConfig, refreshConfig, analytics } from '../../utils/initFirebase';
-import { KindleBook } from "../../utils/parseKindleHighlights";
-import { getValue } from "firebase/remote-config";
-import { FirebaseConfigKeys } from '../../constants';
 import { logEvent } from "firebase/analytics";
+import { getValue } from "firebase/remote-config";
+import React from 'react';
+import { FirebaseConfigKeys } from '../../constants';
+import { DetailsSearchResult, useBookDetailsSearch } from '../../hooks/useBookDetailsSearch';
+import { useFirebase } from "../../hooks/useFirebase";
 import { getBookQuery } from '../../utils/getBookQuery';
+import { KindleBook } from "../../utils/parseKindleHighlights";
 
 export interface BookDetailsSelectorProps {
   books: Array<KindleBook>;
+  setBookDetails: (bookId: string, details: DetailsSearchResult) => void;
 }
 
-export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books }) => {
+export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books, setBookDetails }) => {
   const [selectedBook, setSelectedBook] = React.useState<KindleBook>(books[0]);
-  const [amazonAssociateTag, setAmazonAssociateTag] = React.useState<string | undefined>(remoteConfig.defaultConfig[FirebaseConfigKeys.AmazonAssociateTag]?.toString());
+  const { remoteConfig, analytics } = useFirebase();
   const [searchQuery, setSearchQuery] = React.useState("");
-  const {results: searchResults, search, isBusy: isSearching} = useBookDetailsSearch();
+  const { results: searchResults, search, isBusy: isSearching } = useBookDetailsSearch();
+
+  const amazonAssociateTag = React.useMemo(() => remoteConfig ? getValue(remoteConfig, FirebaseConfigKeys.AmazonAssociateTag).asString() : '', [remoteConfig]);
 
   React.useEffect(() => {
-    const updateTag = () => {
-      const newTag = getValue(remoteConfig, FirebaseConfigKeys.AmazonAssociateTag).asString();
-      setAmazonAssociateTag(newTag);
-    };
-
-    if (remoteConfig.lastFetchStatus !== 'success') {
-      refreshConfig().then(updateTag);
-    } else {
-      updateTag();
-    }
-
     onSearch(getBookQuery(selectedBook));
+
   }, []);
 
   React.useEffect(() => {
@@ -38,7 +30,7 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books 
   }, [selectedBook]);
 
   const onSelectBook = (book: KindleBook) => () => {
-    logEvent(analytics, 'search', {
+    logEvent(analytics!, 'search', {
       search_term: [book.title, book.author].filter(Boolean).join(' ')
     });
 
@@ -51,6 +43,10 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books 
     }
 
     search(query ?? searchQuery);
+  }
+
+  const onSelectDetails = (book: DetailsSearchResult) => () => {
+    setBookDetails(selectedBook.bookId, book);
   }
 
 
@@ -74,7 +70,7 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books 
       </div>
       {isSearching && <progress />}
         <div className='grid grid-cols-3 gap-4 scroll-auto h-96 overflow-y-auto p-4'>
-        {searchResults.map(book => <div className={`border rounded flex flex-col w-full ${book.asin === selectedBook.asin ? 'bg-emerald-200' : ''}`}>
+        {searchResults.map(book => <div className={`border rounded flex flex-col w-full ${book.asin === selectedBook.asin ? 'bg-emerald-200' : ''}`} onClick={onSelectDetails(book)}>
         <img src={book.imageUrl} className='w-full' />
         <div className='px-2 flex flex-col w-full'>
         <div className='text-lg'>{book.title}</div>

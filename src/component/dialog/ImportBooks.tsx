@@ -3,6 +3,8 @@ import { Transaction } from '@sentry/tracing';
 import React from 'react';
 import { syncBookHighlights } from '../../actions/syncBookHighlights';
 import { DetailsSearchResult } from '../../hooks/useBookDetailsSearch';
+import { getBookPage, useImportBooks } from '../../hooks/useImportBooks';
+import { useLogseq } from '../../hooks/useLogseq';
 import { KindleBook } from '../../utils/parseKindleHighlights';
 import { pause } from '../../utils/pause';
 import { BookSelector } from '../pages/BookSelector';
@@ -20,20 +22,51 @@ interface ImportBooksDialogProps {
 
 export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, show, onClose }) => {
   const [currentPage, setCurrentStep] = React.useState(0);
-  const [isReadyForImport, setReadyForImport] = React.useState(false);
   const [selectedBooks, setSelectedBooks] = React.useState<Array<KindleBook>>([]);
+  const { importBooks } = useImportBooks();
+  const logseq = useLogseq();
+
+  const setBookDetails = (bookId: string, details: DetailsSearchResult) => {
+    const selectedBook = books.find(x => x.bookId === bookId)!;
+    setSelectedBooks([
+      ...selectedBooks.filter(x => x.bookId !== bookId),
+      {
+        ...selectedBook,
+        ...details,
+      }
+    ]);
+  }
 
   const pages = [
     <BookSelector books={books} setSelectedBooks={setSelectedBooks} selectedBooks={selectedBooks} />,
-    <BookDetailsSelector books={selectedBooks} />
+    <BookDetailsSelector books={selectedBooks} setBookDetails={setBookDetails} />
   ];
 
-  const onImportBooks = () => {
+  const onImportBooks = async () => {
     console.info(`Import Books`);
+    await importBooks(selectedBooks);
     onClose();
   }
 
-  const onNextPage = () => {
+  const onNextPage = async () => {
+    const newBooks = await Promise.all(selectedBooks.map(async (book) => {
+      const result = { ...book };
+
+      try {
+        const { pageBlocksTree } = await getBookPage({ logseq, book, createPage: false });
+        const bookProps = await logseq.Editor.getBlockProperties(pageBlocksTree[0].uuid);
+
+        if (bookProps.asin) {
+          result.asin = bookProps.asin;
+        }
+      } catch (ex) {
+        console.error(ex);
+      }
+
+      return result
+    }));
+
+    setSelectedBooks(newBooks);
     setCurrentStep(currentPage + 1);
   };
 
@@ -50,7 +83,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
         <DialogActions>
           <DialogAction label='Back' onClick={onPreviousPage} disabled={currentPage <= 0} />
           <DialogAction label='Next' onClick={onNextPage} disabled={currentPage === pages.length - 1} />
-          <DialogAction label='Import' onClick={onImportBooks} disabled={!isReadyForImport} />
+          <DialogAction label='Import' onClick={onImportBooks} disabled={!selectedBooks.length} />
       </DialogActions>
       </BasicDialog>
       </>;
