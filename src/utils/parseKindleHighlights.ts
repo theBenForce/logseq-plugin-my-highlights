@@ -1,3 +1,5 @@
+import { DetailsSearchResult } from "../hooks/useBookDetailsSearch";
+import { getBookId } from "./getBookId";
 
 export type AnnotationType = 'Highlight' | 'Note' | 'Bookmark';
 
@@ -14,10 +16,11 @@ export interface KindleAnnotation {
 
 export interface KindleBook extends BookMetadata {
   lastAnnotation: Date;
+  bookId: string;
   annotations: Array<KindleAnnotation>;
 }
 
-interface BookMetadata {
+interface BookMetadata extends Partial<DetailsSearchResult> {
   title: string;
   author?: string;
 }
@@ -26,7 +29,11 @@ export const parseTitleLine = (titleLine: string) => {
   const title = titleLine.replace(/\([^)]+\)$/g, '').trim();
   const authorMatches = /\((?<author>[^)]+)\)$/g.exec(titleLine);
 
-  const author = authorMatches?.groups?.["author"]?.trim();
+  let author = authorMatches?.groups?.["author"]?.trim();
+
+  if (author === 'Unknown') {
+    author = undefined;
+  }
 
   return { title, author };
 }
@@ -111,8 +118,10 @@ export const parseKindleHighlights = (content: string): Array<KindleBook> => {
         title: clipping.title,
         author: clipping.author,
         annotations: [],
-        lastAnnotation: clipping.timestamp
+        lastAnnotation: clipping.timestamp,
+        bookId: ""
       };
+      book.bookId = getBookId(book);
       result.push(book);
     }
 

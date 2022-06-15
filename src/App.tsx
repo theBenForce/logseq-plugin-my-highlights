@@ -6,6 +6,7 @@ import { HighlightIcon } from "./icons/logo";
 import { ImportBooksDialog } from "./component/dialog/ImportBooks";
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from "@sentry/tracing";
+import { FirebaseProvider } from "./hooks/useFirebase";
 
 const SentryRelease = import.meta.env.VITE_SENTRY_RELEASE as string;
 const SentryDsn = import.meta.env.VITE_SENTRY_DSN as string;
@@ -64,7 +65,7 @@ function App() {
 
   if (visible) {
     return (
-      <>
+      <FirebaseProvider>
         <BasicDialog onClose={() => window.logseq.hideMainUI()}>
           <input ref={fileInputRef} type="file" accept='.txt' onChange={onFileSelected} hidden />
           <DialogHeader title="Import Highlights" icon={<HighlightIcon />} trailing={<a href="https://www.buymeacoffee.com/theBenForce" target="_blank">
@@ -77,7 +78,7 @@ function App() {
         </BasicDialog>
 
         <ImportBooksDialog show={showImportBooks} onClose={hideImportBooks} books={availableBooks ?? []} />
-      </>
+      </FirebaseProvider>
     );
   }
   return null;

@@ -16,7 +16,7 @@ export const BasicDialog: React.FC<BasicDialogProps> = ({ children, onClose }) =
         }}
       >
     <div ref={innerRef}>
-      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-lg">
+      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-screen lg:w-[66vw]">
     {children}
       </div>
     </div>
@@ -24,7 +24,7 @@ export const BasicDialog: React.FC<BasicDialogProps> = ({ children, onClose }) =
 };
 
 export const DialogActions: React.FC = ({ children }) => {
-  return <div className="bg-gray-300 p-4 py-3 sm:flex sm:flex-row-reverse sm:w-full">
+  return <div className="bg-gray-300 p-4 py-3 sm:flex sm:flex-row sm:justify-end sm:w-full">
     {children}
   </div>;
 }
@@ -59,6 +59,6 @@ interface DialogActionProps {
 export const DialogAction: React.FC<DialogActionProps> = ({ label, onClick, disabled }) => {
   return <button disabled={disabled}
     type="button"
-    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:ml-3 sm:w-auto sm:text-sm"
+    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 disabled:bg-gray-600 text-base font-medium text-white disabled:hover:bg-gray-600 hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:ml-3 sm:w-auto sm:text-sm"
     onClick={onClick}>{label}</button>;
 }
