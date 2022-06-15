@@ -1,3 +1,20 @@
+# [1.15.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.14.0...v1.15.0) (2022-06-15)
+
+
+### Bug Fixes
+
+* remove dead code ([7b8b284](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/7b8b2843516d76c0c2f879b83032d0c7d480f74a))
+* tests working ([082a058](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/082a05891b21c020b1880b39a4f5ddb3dad6aeda))
+
+
+### Features
+
+* can search book details ([8b1c3eb](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/8b1c3eb23e79ce82ea97f086b0b356bc95c71676))
+* create details dialog ([8653a8c](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/8653a8c0a206ed3bc16ab5a8660904a865251e07))
+* create link to amazon for book title ([e348eaf](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/e348eafeff872b3484049ad5bd898f7f903a39f9))
+* import books with details ([eaad52e](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/eaad52e4cb6324c7210dcc598560661519d0030a))
+* match books based on existing IDs ([0beb030](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/0beb0304ead66fdafeca0cdd8d6958eed84db746))
+
 # [1.14.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.13.0...v1.14.0) (2022-05-31)
 
 
