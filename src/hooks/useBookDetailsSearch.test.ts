@@ -33,5 +33,11 @@ describe('useBookDetailsSearch', () => {
       const first = results[0];
       expect(first).toHaveProperty('title', 'How to Take Smart Notes: One Simple Technique to Boost Writing, Learning and Thinking');
     });
+
+    it('should parse product path', () => {
+      const results = parseSearchResults(content);
+      const first = results[0];
+      expect(first).toHaveProperty('productPath', '/How-Take-Smart-Notes-Technique-ebook/dp/B09V5M8FR5');
+    });
   });
 });

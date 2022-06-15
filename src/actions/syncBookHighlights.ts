@@ -1,22 +1,40 @@
 
-import { IBatchBlock, ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
-import hash from 'hash.js';
-import { renderTemplate } from '../utils/renderTemplate';
-import { createZettelId } from '../utils/zettelId';
+import { IBatchBlock, IEditorProxy, ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
 import * as Sentry from '@sentry/react';
 import { Transaction } from '@sentry/tracing';
+import hash from 'hash.js';
+import { getBookPage } from '../hooks/useImportBooks';
 import { blocksContainHighlight } from '../utils/containsHighlight';
 import { AnnotationType, KindleBook } from '../utils/parseKindleHighlights';
 
-export const createBookPageProperties = (title: string, book: KindleBook) => ({
-  title,
-  alias: `${book.title.replaceAll('/', '_').split(':')[0]} - Highlights`,
-  author: book.author,
-  last_sync: new Date().toISOString(),
-  type: 'Book'
-});
 
-export const syncBookHighlights = async (book: KindleBook, logseq: ILSPluginUser, transaction?: Transaction) => {
+interface SyncBookHighlightsParams {
+  book: KindleBook;
+  logseq: ILSPluginUser;
+  transaction?: Transaction;
+}
+
+const updateBookDetails = async ({ book, uuid, editor }: { book: KindleBook; uuid: string; editor: IEditorProxy }) => {
+  await Promise.all(["asin", "author", "published"].map(async (key) => {
+    // @ts-ignore
+    if (!book[key]) {
+      return;
+    }
+
+    // @ts-ignore
+    await editor.upsertBlockProperty(uuid, key, book[key]);
+  }));
+
+  if (book.asin) {
+    await editor.upsertBlockProperty(uuid, "read", `[View on Kindle](https://read.amazon.com/reader?asin=${book.asin})`);
+  }
+
+  if (book.imageUrl) {
+    await editor.upsertBlockProperty(uuid, 'cover', `![${book.title}](${book.imageUrl})`);
+  }
+};
+
+export const syncBookHighlights = async ({book, logseq, transaction}: SyncBookHighlightsParams) => {
   console.info(`Importing from ${book.title}`);
   const span = transaction?.startChild({
     op: "syncBookHighlights",
@@ -29,39 +47,10 @@ export const syncBookHighlights = async (book: KindleBook, logseq: ILSPluginUser
   });
 
   try {
-    const zettel = createZettelId();
-    let path = logseq.settings?.highlight_path ?? `highlights/{type}/{title}`;
-    path = renderTemplate(path, {
-      type: 'book',
-      title: book.title,
-      author: book.author ?? logseq.settings?.default_author ?? 'UnknownAuthor',
-      zettel,
-    });
+    const { page, pageBlocksTree } = await getBookPage(logseq, book);
+  const firstBlock = pageBlocksTree[0];
 
-    const updatePage = span?.startChild({
-      op: 'updatePageBlock',
-      description: 'Create/Update Page Block'
-    });
-
-    console.info(`Loading path ${path}`);
-    // await goToPage(path, logseq);
-    
-    let page = await logseq.Editor.getPage(path, { includeChildren: true });
-    
-    if (!page) {
-      console.info(`Creating new page`);
-      page = await logseq.Editor.createPage(path, createBookPageProperties(path, book), {createFirstBlock: true});
-      span?.setData('is_new', true);
-    } else {
-      const pageBlocksTree = await logseq.Editor.getPageBlocksTree(page!.name);
-      const firstBlock = pageBlocksTree[0];
-
-      await logseq.Editor.upsertBlockProperty(firstBlock.uuid, "last_sync", new Date().toISOString());
-    }
-    
-    const pageBlocksTree = await logseq.Editor.getPageBlocksTree(page!.name);
-
-    updatePage?.finish();
+  await logseq.Editor.upsertBlockProperty(firstBlock.uuid, "last_sync", new Date().toISOString());
 
     function addContentBlock(content: string, type: AnnotationType, start?: number, page?: number) {
       const highlight_id = hash.sha224().update([type.toUpperCase(), start, content].filter(Boolean).join(':')).digest('hex');
