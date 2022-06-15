@@ -34,8 +34,8 @@ const updateBookDetails = async ({ book, uuid, editor }: { book: KindleBook; uui
     await editor.upsertBlockProperty(uuid, 'cover', `![${book.title}](${book.imageUrl})`);
   }
 
-
-  const existingIds: Array<string> = (await editor.getBlockProperty(uuid, BookPageProperties.SourceBookIds)) ?? [];
+  const properties = await editor.getBlockProperties(uuid);
+  const existingIds: Array<string> = properties.sourceBookIds ?? [];
 
   if (!existingIds?.includes(book.bookId)) {
     await editor.upsertBlockProperty(uuid, BookPageProperties.SourceBookIds, [...existingIds, book.bookId]);

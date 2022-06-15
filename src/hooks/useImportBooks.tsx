@@ -1,10 +1,10 @@
-import { ILSPluginUser } from "@logseq/libs/dist/LSPlugin";
+import { BlockEntity, IDBProxy, ILSPluginUser, PageEntity } from "@logseq/libs/dist/LSPlugin";
 import React from "react";
 import { syncBookHighlights } from "../actions/syncBookHighlights";
+import { BookPageProperties } from "../constants";
 import { KindleBook } from "../utils/parseKindleHighlights";
 import { renderTemplate } from "../utils/renderTemplate";
 import { createZettelId } from "../utils/zettelId";
-import { DetailsSearchResult } from "./useBookDetailsSearch";
 import { useLogseq } from "./useLogseq";
 
 export const createBookPageProperties = (title: string, book: KindleBook) => ({
@@ -16,6 +16,30 @@ export const createBookPageProperties = (title: string, book: KindleBook) => ({
 });
 
 interface GetBookPageParams { logseq: ILSPluginUser; book: KindleBook; createPage?: boolean; }
+
+const getPageByAsin = async (db: IDBProxy, asin: string): Promise<PageEntity|null> => {
+  const result = await db.q<BlockEntity>(`(page-property asin "${asin}")`);
+
+  if (!result?.length) {
+    return null;
+  }
+
+  const block = result[0];
+  const page = await window.logseq.Editor.getPage(block.name, { includeChildren: true });
+  return page;
+}
+
+const getPageByBookId = async (db: IDBProxy, bookId: string): Promise<PageEntity | null> => {
+  const result = await db.q<BlockEntity>(`(page-property ${BookPageProperties.SourceBookIds} "${bookId}")`);
+
+  if (!result?.length) {
+    return null;
+  }
+
+  const block = result[0];
+  const page = await window.logseq.Editor.getPage(block.name, { includeChildren: true });
+  return page;
+}
 
 export async function getBookPage({ logseq, book, createPage = true }: GetBookPageParams) {
   const zettel = createZettelId();
@@ -31,6 +55,15 @@ export async function getBookPage({ logseq, book, createPage = true }: GetBookPa
   let page = await logseq.Editor.getPage(path, { includeChildren: true });
 
   if (!page) {
+    page = await getPageByBookId(logseq.DB, book.bookId);
+  }
+
+  if (!page && book.asin) {
+    page = await getPageByAsin(logseq.DB, book.asin);
+  }
+
+  if (!page) {
+    // TODO: Try to find page with asin, then book id
     if (!createPage) throw new Error(`Page not found`);
     console.info(`Creating new page`);
     page = await logseq.Editor.createPage(path, createBookPageProperties(path, book), { createFirstBlock: true });

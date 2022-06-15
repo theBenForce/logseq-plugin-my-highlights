@@ -78,7 +78,7 @@ export function parseSearchResults(content: string): DetailsSearchResult[] {
 
     const headerElement = e.find('.s-title-instructions-style').first();
     const metaElements = $(headerElement[0].children[1]).find('.a-row').first();
-    const author = $(metaElements).find('.s-link-style').first().text();
+    const author = $(metaElements).find('.s-link-style.a-size-base').first().text();
     const published = $(metaElements).find('.a-text-normal').last().text();
 
     if (asin && title && imageUrl && productPath && !title.startsWith('Sponsored Ad')) {

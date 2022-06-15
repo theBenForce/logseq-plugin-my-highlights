@@ -70,7 +70,7 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books,
       </div>
       {isSearching && <progress />}
         <div className='grid grid-cols-3 gap-4 scroll-auto h-96 overflow-y-auto p-4'>
-        {searchResults.map(book => <div className={`border rounded flex flex-col w-full ${book.asin === selectedBook.asin ? 'bg-emerald-200' : ''}`} onClick={onSelectDetails(book)}>
+        {searchResults.map(book => <div key={book.asin} className={`border rounded flex flex-col w-full ${book.asin === selectedBook.asin ? 'bg-emerald-200' : ''}`} onClick={onSelectDetails(book)}>
         <img src={book.imageUrl} className='w-full' />
         <div className='px-2 flex flex-col w-full'>
         <div className='text-lg'>{book.title}</div>

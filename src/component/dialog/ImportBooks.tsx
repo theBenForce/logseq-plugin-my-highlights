@@ -81,8 +81,8 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
       <DialogHeader title='Import Book Highlights' />
         {pages[currentPage]}
         <DialogActions>
-          <DialogAction label='Back' onClick={onPreviousPage} disabled={currentPage <= 0} />
-          <DialogAction label='Next' onClick={onNextPage} disabled={currentPage === pages.length - 1} />
+          {currentPage > 0 && <DialogAction label='Back' onClick={onPreviousPage} disabled={currentPage <= 0} />}
+          {currentPage < pages.length - 1 && <DialogAction label='Next' onClick={onNextPage} disabled={currentPage === pages.length - 1} />}
           <DialogAction label='Import' onClick={onImportBooks} disabled={!selectedBooks.length} />
       </DialogActions>
       </BasicDialog>
