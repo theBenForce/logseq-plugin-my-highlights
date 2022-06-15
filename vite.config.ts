@@ -81,7 +81,7 @@ export default defineConfig({
     strictPort: true,
   },
   build: {
-    target: "esnext",
+    target: "chrome",
     minify: "esbuild",
     sourcemap: true,
   },

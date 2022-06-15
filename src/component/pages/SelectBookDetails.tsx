@@ -16,7 +16,7 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books 
   const [selectedBook, setSelectedBook] = React.useState<KindleBook>(books[0]);
   const [amazonAssociateTag, setAmazonAssociateTag] = React.useState<string | undefined>(remoteConfig.defaultConfig[FirebaseConfigKeys.AmazonAssociateTag]?.toString());
   const [searchQuery, setSearchQuery] = React.useState("");
-  const {results: searchResults, search} = useBookDetailsSearch();
+  const {results: searchResults, search, isBusy: isSearching} = useBookDetailsSearch();
 
   React.useEffect(() => {
     const updateTag = () => {
@@ -49,15 +49,15 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books 
     if (query) {
       setSearchQuery(query);
     }
-    
+
     search(query ?? searchQuery);
   }
 
 
   return <div className='flex flex-row gap-4 p-4'>
-    <div className='basis-1/3 flex flex-col scroll-auto h-96 overflow-y-auto'>
-      {books.map(book => <div className='border rounded flex flex-row grow items-center gap-2 px-2' key={getBookId(book)} onClick={onSelectBook(book)}>
-          <div className="flex flex-col grow truncate" style={{flexGrow: 1}}>
+    <div className='basis-1/3 flex flex-col scroll-auto h-96 overflow-y-auto gap-2'>
+      {books.map(book => <div className={`border rounded flex flex-row grow items-center gap-2 px-2 ${book.bookId === selectedBook.bookId ? 'bg-emerald-200' : ''}`} key={book.bookId} onClick={onSelectBook(book)}>
+          <div className="flex flex-col grow truncate">
             <div className="truncate text-lg">{book.title}</div>
             <div className="flex grow flex-row gap-1 justify-between">
               {book.author && <div className="truncate text-sm flex-1 grow">{book.author}</div>}
@@ -70,14 +70,17 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books 
       <div className='flex flex-row gap-4'>
         {/* @ts-ignore */}
         <input onChange={(e) => setSearchQuery(e.target.value)} type="text" className='flex-grow border rounded px-2' value={searchQuery} />
-        <button onClick={onSearch}>Search</button>
-        </div>
-        <div className='grid grid-cols-3 gap-4 scroll-auto h-96 overflow-y-auto'>
-      {searchResults.map(book => <div className='border rounded px-2 flex flex-col w-full'>
+        <button onClick={() => onSearch()}>Search</button>
+      </div>
+      {isSearching && <progress />}
+        <div className='grid grid-cols-3 gap-4 scroll-auto h-96 overflow-y-auto p-4'>
+        {searchResults.map(book => <div className={`border rounded flex flex-col w-full ${book.asin === selectedBook.asin ? 'bg-emerald-200' : ''}`}>
         <img src={book.imageUrl} className='w-full' />
+        <div className='px-2 flex flex-col w-full'>
         <div className='text-lg'>{book.title}</div>
         <div className='text-sm'>{book.author}</div>
-        <div className='text-sm'><a href={`https://amazon.com${book.productPath}?tag=${amazonAssociateTag}`} target="_blank">View Book</a></div>
+          <div className='text-sm'><a href={`https://amazon.com${book.productPath}?tag=${amazonAssociateTag}`} target="_blank">View Book</a></div>
+          </div>
       </div>)}
       </div>
     </div>

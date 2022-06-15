@@ -45,6 +45,7 @@ export const useBookDetailsSearch = () => {
 
     try {
       setBusy(true);
+      setResults([]);
       const r = await searchAmazonKindle(query);
       setResults(r);
     } finally {

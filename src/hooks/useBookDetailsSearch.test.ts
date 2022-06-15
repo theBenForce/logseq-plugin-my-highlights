@@ -13,7 +13,7 @@ describe('useBookDetailsSearch', () => {
 
     it('should parse all results', () => {
       const results = parseSearchResults(content);
-      expect(results).toHaveLength(22);
+      expect(results).toHaveLength(16);
     });
 
     it('should parse ASIN', () => {
