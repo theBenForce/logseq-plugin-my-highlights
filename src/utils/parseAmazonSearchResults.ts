@@ -15,7 +15,13 @@ export function parseAmazonSearchResults(content: string): AmazonSearchResult[] 
   const results = [] as AmazonSearchResult[];
   const $ = cheerio.load(content);
 
-  const resultContainer = $('.s-main-slot').first();
+  const resultContainer = $('div.s-search-results.s-main-slot').first();
+  
+  // Look for no results banner
+  const banner = resultContainer.children('div.a-section').first().text();
+  if (banner.includes('No results for ') || banner.includes('Showing results from All Departments')) {
+    return results;
+  }
 
   resultContainer.children('div[data-component-type=s-search-result]').each((i, elem) => {
     const e = $(elem);

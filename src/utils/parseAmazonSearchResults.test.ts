@@ -38,4 +38,14 @@ import * as path from 'path';
       const first = results[0];
       expect(first).toHaveProperty('productPath', '/How-Take-Smart-Notes-Technique-ebook/dp/B09V5M8FR5');
     });
+
+    it('should return empty array when no results found', async () => {
+      const failedResult = await fs.promises.readFile(path.join(__dirname, '..', '..', 'test_data', 'noResultsFound.html'), {
+        encoding: 'utf-8'
+      });
+      const results = parseAmazonSearchResults(failedResult);
+
+      expect(Array.isArray(results)).toBeTruthy();
+      expect(results).toHaveLength(0);
+    })
   });
