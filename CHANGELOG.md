@@ -1,3 +1,12 @@
+## [1.15.2](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.15.1...v1.15.2) (2022-06-16)
+
+
+### Bug Fixes
+
+* disable cors ([06a7fa4](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/06a7fa446ddeea48589ecec5cf91e77b89d82f41))
+* return empty list on no results ([8ecbef5](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/8ecbef56839d29261a52f6bae51da6fa2454698b))
+* use fetch ([9be1b49](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/9be1b490799af952992fac785fdcb1291223b6ad))
+
 ## [1.15.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.15.0...v1.15.1) (2022-06-15)
 
 
