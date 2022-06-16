@@ -2,9 +2,9 @@ import * as Sentry from '@sentry/react';
 import { Transaction } from '@sentry/tracing';
 import React from 'react';
 import { syncBookHighlights } from '../../actions/syncBookHighlights';
-import { DetailsSearchResult } from '../../hooks/useBookDetailsSearch';
 import { getBookPage, useImportBooks } from '../../hooks/useImportBooks';
 import { useLogseq } from '../../hooks/useLogseq';
+import { AmazonSearchResult } from '../../utils/parseAmazonSearchResults';
 import { KindleBook } from '../../utils/parseKindleHighlights';
 import { pause } from '../../utils/pause';
 import { BookSelector } from '../pages/BookSelector';
@@ -26,7 +26,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
   const { importBooks } = useImportBooks();
   const logseq = useLogseq();
 
-  const setBookDetails = (bookId: string, details: DetailsSearchResult) => {
+  const setBookDetails = (bookId: string, details: AmazonSearchResult) => {
     const selectedBook = books.find(x => x.bookId === bookId)!;
     setSelectedBooks([
       ...selectedBooks.filter(x => x.bookId !== bookId),

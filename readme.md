@@ -15,6 +15,19 @@ After selecting the clippings file you will be presented with a list of books th
 import highlights from. Select the checkbox next to each book that you would like to import and click
 the "Import" button.
 
+### Adding More Details
+
+If you would like to add the book's cover image, ASIN, and a link to the kindle web reader to the
+book page during import click the "Next" button instead of "Import". This will take you to a second
+page.
+
+On the second page, select a book from the list on the left and you will see search results from
+Amazon on the right. Select the search result that matches the selected book. If you don't see the
+book that you want in the initial search results, change the query and click "Search" to see different
+results.
+
+After you've selected the details once, you shouldn't need to select them again on future imports.
+
 ![Importing Highlights](./docs/sample_import.gif)
 
 ## Hiding Highlight ID Properties

@@ -2,14 +2,15 @@ import { logEvent } from "firebase/analytics";
 import { getValue } from "firebase/remote-config";
 import React from 'react';
 import { FirebaseConfigKeys } from '../../constants';
-import { DetailsSearchResult, useBookDetailsSearch } from '../../hooks/useBookDetailsSearch';
+import { useBookDetailsSearch } from '../../hooks/useBookDetailsSearch';
 import { useFirebase } from "../../hooks/useFirebase";
 import { getBookQuery } from '../../utils/getBookQuery';
+import { AmazonSearchResult } from "../../utils/parseAmazonSearchResults";
 import { KindleBook } from "../../utils/parseKindleHighlights";
 
 export interface BookDetailsSelectorProps {
   books: Array<KindleBook>;
-  setBookDetails: (bookId: string, details: DetailsSearchResult) => void;
+  setBookDetails: (bookId: string, details: AmazonSearchResult) => void;
 }
 
 export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books, setBookDetails }) => {
@@ -45,7 +46,7 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books,
     search(query ?? searchQuery);
   }
 
-  const onSelectDetails = (book: DetailsSearchResult) => () => {
+  const onSelectDetails = (book: AmazonSearchResult) => () => {
     setBookDetails(selectedBook.bookId, book);
   }
 

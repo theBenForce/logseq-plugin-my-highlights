@@ -2,6 +2,7 @@ import React from 'react';
 
 interface BasicDialogProps {
   onClose?: () => void;
+  children: React.ReactNode;
 }
 
 export const BasicDialog: React.FC<BasicDialogProps> = ({ children, onClose }) => {
@@ -23,7 +24,7 @@ export const BasicDialog: React.FC<BasicDialogProps> = ({ children, onClose }) =
     </main>;
 };
 
-export const DialogActions: React.FC = ({ children }) => {
+export const DialogActions: React.FC<{children: React.ReactNode}> = ({ children }) => {
   return <div className="bg-gray-300 p-4 py-3 sm:flex sm:flex-row sm:justify-end sm:w-full">
     {children}
   </div>;
