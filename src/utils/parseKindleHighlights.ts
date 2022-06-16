@@ -1,4 +1,4 @@
-import { DetailsSearchResult } from "../hooks/useBookDetailsSearch";
+import { AmazonSearchResult } from "../utils/parseAmazonSearchResults";
 import { getBookId } from "./getBookId";
 
 export type AnnotationType = 'Highlight' | 'Note' | 'Bookmark';
@@ -20,7 +20,7 @@ export interface KindleBook extends BookMetadata {
   annotations: Array<KindleAnnotation>;
 }
 
-interface BookMetadata extends Partial<DetailsSearchResult> {
+interface BookMetadata extends Partial<AmazonSearchResult> {
   title: string;
   author?: string;
 }

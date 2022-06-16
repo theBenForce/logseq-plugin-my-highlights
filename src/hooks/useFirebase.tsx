@@ -20,7 +20,7 @@ const firebaseConfig = {
 
 const firebaseContext = React.createContext<FirebaseContext>({});
 
-export const FirebaseProvider: React.FC = ({ children }) => {
+export const FirebaseProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const [remoteConfig, setRemoteConfig] = React.useState<RemoteConfig>();
   const [analytics, setAnalytics] = React.useState<Analytics>();
 
