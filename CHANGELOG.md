@@ -1,3 +1,10 @@
+## [1.15.3](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.15.2...v1.15.3) (2022-06-16)
+
+
+### Bug Fixes
+
+* capture fetch failures ([7e5f12c](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/7e5f12c414cc265980f21b8700e8feff7559fe5b))
+
 ## [1.15.2](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.15.1...v1.15.2) (2022-06-16)
 
 
