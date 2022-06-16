@@ -41,6 +41,7 @@
     "conventional-changelog-conventionalcommits": "4.6.3",
     "eslint": "8.10.0",
     "eslint-plugin-react": "7.29.2",
+    "firebase-tools": "^11.1.0",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.1",
     "semantic-release": "19.0.2",
