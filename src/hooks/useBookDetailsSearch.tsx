@@ -1,5 +1,6 @@
 import React from 'react';
 import { AmazonSearchResult, parseAmazonSearchResults } from '../utils/parseAmazonSearchResults';
+import * as Sentry from '@sentry/react';
 
 
 const searchAmazonKindle = async (query: string): Promise<Array<AmazonSearchResult>> => {
@@ -17,6 +18,13 @@ const searchAmazonKindle = async (query: string): Promise<Array<AmazonSearchResu
   if (response.status === 200) {
     const content = await response.text();
     results = parseAmazonSearchResults(content);
+  } else {
+    console.error(response.statusText);
+    Sentry.captureException(response.statusText, {
+      extra: {
+        searchParams: url.searchParams.toString(),
+      }
+    });
   }
 
   return results;
