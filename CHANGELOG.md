@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.15.3...v1.16.0) (2022-06-21)
+
+
+### Features
+
+* save anonymous user id ([d5e37f5](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/d5e37f578ee34135161a6c046acd7aa3adaae594))
+
 ## [1.15.3](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.15.2...v1.15.3) (2022-06-16)
 
 
