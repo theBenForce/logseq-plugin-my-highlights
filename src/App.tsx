@@ -6,7 +6,8 @@ import { HighlightIcon } from "./icons/logo";
 import { ImportBooksDialog } from "./component/dialog/ImportBooks";
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from "@sentry/tracing";
-import { FirebaseProvider } from "./hooks/useFirebase";
+import { useFirebase } from "./hooks/useFirebase";
+import { logEvent } from "firebase/analytics";
 
 const SentryRelease = import.meta.env.VITE_SENTRY_RELEASE as string;
 const SentryDsn = import.meta.env.VITE_SENTRY_DSN as string;
@@ -27,6 +28,16 @@ function App() {
   const [availableBooks, setAvailableBooks] = React.useState<Array<KindleBook> | null>(null);
   const [showImportBooks, setShowImportBooks] = React.useState<boolean>(false);
   Sentry.withScope(scope => scope.setTransactionName("MainDialog"))
+  const { analytics } = useFirebase();
+
+  React.useEffect(() => {
+    if (visible && analytics) {
+      // @ts-ignore
+      logEvent(analytics, 'screen_view', {
+        firebase_screen: 'Import Dialog'
+      });
+    }
+  }, [visible, analytics]);
 
   const onFileSelected: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     console.info('Open File', event.target.files);
@@ -64,8 +75,7 @@ function App() {
   }
 
   if (visible) {
-    return (
-      <FirebaseProvider>
+    return (<>
         <BasicDialog onClose={() => window.logseq.hideMainUI()}>
           <input ref={fileInputRef} type="file" accept='.txt' onChange={onFileSelected} hidden />
           <DialogHeader title="Import Highlights" icon={<HighlightIcon />} trailing={<a href="https://www.buymeacoffee.com/theBenForce" target="_blank">
@@ -77,8 +87,8 @@ function App() {
           </DialogActions>
         </BasicDialog>
 
-        <ImportBooksDialog show={showImportBooks} onClose={hideImportBooks} books={availableBooks ?? []} />
-      </FirebaseProvider>
+      <ImportBooksDialog show={showImportBooks} onClose={hideImportBooks} books={availableBooks ?? []} />
+      </>
     );
   }
   return null;

@@ -7,6 +7,7 @@ import App from "./App";
 
 import { logseq as PL } from "../package.json";
 import { SettingsSchema } from "./settingsSchema";
+import { FirebaseProvider } from "./hooks/useFirebase";
 
 
 const isDev = process.env.NODE_ENV === "development";
@@ -20,7 +21,10 @@ function main() {
   console.info(`#${pluginId}: MAIN`);
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      
+      <FirebaseProvider>
+        <App />
+        </FirebaseProvider>
     </React.StrictMode>,
     document.getElementById("app")
   );
