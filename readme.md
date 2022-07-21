@@ -54,4 +54,4 @@ You can manually install this plugin by downloading the [latest release](https:/
 
 ## Support
 
-If you find this plugin useful, please consider [buying me a coffee](https://www.buymeacoffee.com/theBenForce).
+If you find this plugin useful, please consider [buying me a coffee](https://www.buymeacoffee.com/theBenForce/e/80852).
