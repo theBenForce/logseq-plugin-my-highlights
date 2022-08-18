@@ -1,3 +1,11 @@
+## [1.16.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.0...v1.16.1) (2022-08-18)
+
+
+### Bug Fixes
+
+* catch error when getting a page ([#23](https://github.com/theBenForce/logseq-plugin-my-highlights/issues/23)) ([5a513af](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/5a513afebf56a33b70f4244fd81a418eadcd79d7))
+* show toolbar icon ([32b3288](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/32b328890451bbee2b84ab3c474d9d2981442098))
+
 # [1.16.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.15.3...v1.16.0) (2022-06-21)
 
 
