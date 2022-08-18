@@ -54,7 +54,7 @@ export async function getBookPage({ logseq, book, createPage = true }: GetBookPa
   });
 
   console.info(`Loading path ${path}`);
-  let page;
+  let page: PageEntity | null = null;
   
   try {
     page = await logseq.Editor.getPage(path, { includeChildren: true });
