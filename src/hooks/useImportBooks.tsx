@@ -17,7 +17,8 @@ export const createBookPageProperties = (title: string, book: KindleBook) => ({
 
 interface GetBookPageParams { logseq: ILSPluginUser; book: KindleBook; createPage?: boolean; }
 
-const getPageByAsin = async (db: IDBProxy, asin: string): Promise<PageEntity|null> => {
+const getPageByAsin = async (db: IDBProxy, asin: string): Promise<PageEntity | null> => {
+  console.info(`Getting page by asin`);
   const result = await db.q<BlockEntity>(`(page-property asin "${asin}")`);
 
   if (!result?.length) {
@@ -30,6 +31,7 @@ const getPageByAsin = async (db: IDBProxy, asin: string): Promise<PageEntity|nul
 }
 
 const getPageByBookId = async (db: IDBProxy, bookId: string): Promise<PageEntity | null> => {
+  console.info(`Getting page by book id`);
   const result = await db.q<BlockEntity>(`(page-property ${BookPageProperties.SourceBookIds} "${bookId}")`);
 
   if (!result?.length) {
@@ -52,7 +54,13 @@ export async function getBookPage({ logseq, book, createPage = true }: GetBookPa
   });
 
   console.info(`Loading path ${path}`);
-  let page = await logseq.Editor.getPage(path, { includeChildren: true });
+  let page;
+  
+  try {
+    page = await logseq.Editor.getPage(path, { includeChildren: true });
+  } catch (ex) {
+    console.error(ex);
+  }
 
   if (!page) {
     page = await getPageByBookId(logseq.DB, book.bookId);
