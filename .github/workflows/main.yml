@@ -3,7 +3,7 @@
 name: Releases
 
 env:
-  PLUGIN_NAME: logseq-plugin-template-react
+  PLUGIN_NAME: logseq-plugin-my-highlights
 
 # Controls when the action will run.
 on:
@@ -23,17 +23,19 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
-      - uses: pnpm/action-setup@v2.2.1
-        with:
-          version: 6.0.2
+
       - run: yarn install
+
       - name: Test
         run: yarn test
+
       - name: Install zip
         uses: montudor/action-zip@v1
+
       - name: Release
         run: npx semantic-release
         env:
