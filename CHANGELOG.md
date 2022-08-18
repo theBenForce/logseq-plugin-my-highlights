@@ -1,3 +1,10 @@
+## [1.16.2](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.1...v1.16.2) (2022-08-18)
+
+
+### Bug Fixes
+
+* fix build errors ([#25](https://github.com/theBenForce/logseq-plugin-my-highlights/issues/25)) ([1136c6e](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/1136c6e1c2dd62acf3f38fdc3dd74c10046e1a3c))
+
 ## [1.16.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.0...v1.16.1) (2022-08-18)
 
 
