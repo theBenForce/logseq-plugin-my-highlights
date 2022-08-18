@@ -11,7 +11,7 @@ echo "Environment"
 echo $(cat --show-ends ./.env)
 
 echo "Building"
-pnpm build
+yarn build
 
 echo "Create Sentry Release"
 npx sentry-cli releases new $SENTRY_RELEASE --url "https://github.com/theBenForce/logseq-plugin-my-highlights/releases/tag/v$NEXT_VERSION"
