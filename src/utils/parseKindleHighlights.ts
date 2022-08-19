@@ -3,15 +3,17 @@ import { getBookId } from "./getBookId";
 
 export type AnnotationType = 'Highlight' | 'Note' | 'Bookmark';
 
+export interface KindleLocation {
+  start: number;
+  end?: number;
+}
+
 export interface KindleAnnotation {
   timestamp: Date;
-  type: AnnotationType;
+  type?: AnnotationType;
   content?: string;
   page?: number;
-  location: {
-    start: number;
-    end?: number;
-  }
+  location?: KindleLocation;
 }
 
 export interface KindleBook extends BookMetadata {
@@ -39,6 +41,8 @@ export const parseTitleLine = (titleLine: string) => {
 }
 
 export const parseMetaLine = (metaLine: string): KindleAnnotation => {
+
+  // TODO: Remove dependency on english keywords
   const typeRx = /^- Your\s(?<type>Note|Highlight|Bookmark)/;
   const pageRx = /page\s+(?<page>\d+)/;
   const locationRx = /Location\s+(?<start>\d+)(-(?<end>\d+))?/;
@@ -53,21 +57,26 @@ export const parseMetaLine = (metaLine: string): KindleAnnotation => {
     page = parseInt(pageVal);
   }
 
+  let location: KindleLocation | undefined;
   const locationVal = locationRx.exec(metaLine)?.groups;
 
-  if (!locationVal) {
-    throw new Error(`Could not find location: ${metaLine}`);
-  }
+  if (locationVal) {
+    let start: number | undefined;
+    let end: number | undefined;
 
-  let start: number | undefined;
-  let end: number | undefined;
+    if (locationVal['start']) {
+      start = parseInt(locationVal['start']);
+    }
 
-  if (locationVal['start']) {
-    start = parseInt(locationVal['start']);
-  }
+    if (locationVal['end']) {
+      end = parseInt(locationVal['end']);
+    }
 
-  if (locationVal['end']) {
-    end = parseInt(locationVal['end']);
+    if (!start) {
+      throw new Error(`Could not find start location in ${locationVal}`);
+    }
+
+    location = { start, end };
   }
 
   let timestamp = new Date();
@@ -82,10 +91,7 @@ export const parseMetaLine = (metaLine: string): KindleAnnotation => {
     type,
     page,
     timestamp,
-    location: {
-      start,
-      end
-    }
+    location,
   } as KindleAnnotation;
 }
 
