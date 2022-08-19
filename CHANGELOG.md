@@ -1,3 +1,10 @@
+## [1.16.4](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.3...v1.16.4) (2022-08-19)
+
+
+### Bug Fixes
+
+* import highlights from language other than english ([#28](https://github.com/theBenForce/logseq-plugin-my-highlights/issues/28)) ([38e6649](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/38e664912c2c365116eaab50dadac2dc5b51fd64))
+
 ## [1.16.3](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.2...v1.16.3) (2022-08-19)
 
 
