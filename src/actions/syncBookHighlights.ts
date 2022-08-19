@@ -63,8 +63,8 @@ export const syncBookHighlights = async ({book, logseq, transaction}: SyncBookHi
       book, uuid: firstBlock.uuid, editor: logseq.Editor
     });
 
-    function addContentBlock(content: string, type: AnnotationType, start?: number, page?: number) {
-      const highlight_id = hash.sha224().update([type.toUpperCase(), start, content].filter(Boolean).join(':')).digest('hex');
+    function addContentBlock(content: string, type?: AnnotationType, start?: number, page?: number) {
+      const highlight_id = hash.sha224().update([type?.toUpperCase(), start, content].filter(Boolean).join(':')).digest('hex');
       const icon = type === 'Highlight' ? '📌' : type === 'Note' ? '📝' : type === 'Bookmark' ? '🎯' : '❓';
 
       const properties: Record<string, unknown> = { highlight_id };

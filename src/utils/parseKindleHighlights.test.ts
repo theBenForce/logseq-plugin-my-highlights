@@ -25,33 +25,43 @@ describe('parseKindleHighlights', () => {
   });
 
   describe('parseMetaLine', () => {
-    const META_LINE = '- Your Note on page 7 | Location 64 | Added on Monday, August 23, 2021 6:52:21 AM';
+    describe('English', () => {
+      const META_LINE = '- Your Note on page 7 | Location 64 | Added on Monday, August 23, 2021 6:52:21 AM';
 
-    it('should parse type', () => {
-      const result = parseMetaLine(META_LINE);
-      expect(result).toHaveProperty('type', 'Note');
+      it('should parse type', () => {
+        const result = parseMetaLine(META_LINE);
+        expect(result).toHaveProperty('type', 'Note');
+      });
+
+      it('should parse page', () => {
+        const result = parseMetaLine(META_LINE);
+        expect(result).toHaveProperty('page', 7);
+      });
+
+      it('should parse location start', () => {
+        const result = parseMetaLine(META_LINE);
+        expect(result).toHaveProperty('location.start', 64);
+      });
+
+      it('should parse location end', () => {
+        const result = parseMetaLine('- Your Highlight on page 2 | Location 129-130 | Added on Tuesday, August 17, 2021 5:53:38 AM');
+        expect(result).toHaveProperty('location.end', 130);
+      });
+
+      it('should parse timestamp', () => {
+        const result = parseMetaLine(META_LINE);
+        expect(result).toHaveProperty('timestamp', new Date(Date.parse('Monday, August 23, 2021 6:52:21 AM')));
+      });
     });
 
-    it('should parse page', () => {
-      const result = parseMetaLine(META_LINE);
-      expect(result).toHaveProperty('page', 7);
-    });
+    describe('Chinese', () => {
+      const META_LINE = '- 您在位置 #1920-1921的标注 | 添加于 2022年6月6日星期一 下午4:09:21';
 
-    it('should parse location start', () => {
-      const result = parseMetaLine(META_LINE);
-      expect(result).toHaveProperty('location.start', 64);
+      it('should parse without failing', () => {
+        expect(() => parseMetaLine(META_LINE)).not.toThrow();
+      });
     });
-
-    it('should parse location end', () => {
-      const result = parseMetaLine('- Your Highlight on page 2 | Location 129-130 | Added on Tuesday, August 17, 2021 5:53:38 AM');
-      expect(result).toHaveProperty('location.end', 130);
-    });
-
-    it('should parse timestamp', () => {
-      const result = parseMetaLine(META_LINE);
-      expect(result).toHaveProperty('timestamp', new Date(Date.parse('Monday, August 23, 2021 6:52:21 AM')));
-    });
-  })
+  });
   describe('parseTitleLine', () => {
     it('should parse title', () => {
       const result = parseTitleLine('Effective Notetaking (Study Skills Book 1) (McPherson, Fiona)');
