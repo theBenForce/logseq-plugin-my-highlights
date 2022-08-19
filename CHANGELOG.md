@@ -1,3 +1,10 @@
+## [1.16.3](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.2...v1.16.3) (2022-08-19)
+
+
+### Bug Fixes
+
+* use theme styles for button ([#27](https://github.com/theBenForce/logseq-plugin-my-highlights/issues/27)) ([517e367](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/517e367202c951dfe6233acbd429dd275e562251))
+
 ## [1.16.2](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.1...v1.16.2) (2022-08-18)
 
 
