@@ -23,14 +23,24 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          node-version: "16"
-      - run: yarn install
+          node-version: 16
+          cache: "yarn"
+
+      - name: Install Dependencies
+        run: yarn install
+        env:
+          CI: TRUE
+
       - name: Test
         run: yarn test
+
       - name: Install zip
         uses: montudor/action-zip@v1
+
       - name: Release
         run: npx semantic-release
         env:

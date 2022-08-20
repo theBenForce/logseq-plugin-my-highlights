@@ -7,40 +7,45 @@ import { renderTemplate } from "../utils/renderTemplate";
 import { createZettelId } from "../utils/zettelId";
 import { useLogseq } from "./useLogseq";
 
-export const createBookPageProperties = (title: string, book: KindleBook) => ({
+export const nameToLink = ({ reverseNameOrder }: { reverseNameOrder?: boolean; } = {}) => (name: string): string => {
+  let result = name;
+
+  if (reverseNameOrder) {
+    result = result.split(',').reverse().join(' ').trim();
+  }
+  
+  return `[[${result}]]`;
+};
+
+export const createBookPageProperties = (title: string, book: KindleBook, reverseNameOrder: boolean) => ({
   title,
   alias: `${book.title.replaceAll('/', '_').split(':')[0]} - Highlights`,
-  author: book.author,
+  author: book.authors?.map(nameToLink({ reverseNameOrder }))?.join(' '),
   last_sync: new Date().toISOString(),
   type: 'Book'
 });
 
 interface GetBookPageParams { logseq: ILSPluginUser; book: KindleBook; createPage?: boolean; }
 
-const getPageByAsin = async (db: IDBProxy, asin: string): Promise<PageEntity | null> => {
-  console.info(`Getting page by asin`);
-  const result = await db.q<BlockEntity>(`(page-property asin "${asin}")`);
+const getPageByQuery = async (db: IDBProxy, query: string): Promise<PageEntity | null> => {
+  const result = await db.q<BlockEntity>(query);
 
   if (!result?.length) {
     return null;
   }
 
   const block = result[0];
-  const page = await window.logseq.Editor.getPage(block.name, { includeChildren: true });
-  return page;
+  return window.logseq.Editor.getPage(block.name, { includeChildren: true });
+}
+
+const getPageByAsin = async (db: IDBProxy, asin: string): Promise<PageEntity | null> => {
+  console.info(`Getting page by asin`);
+  return getPageByQuery(db, `(page-property asin "${asin}")`);
 }
 
 const getPageByBookId = async (db: IDBProxy, bookId: string): Promise<PageEntity | null> => {
   console.info(`Getting page by book id`);
-  const result = await db.q<BlockEntity>(`(page-property ${BookPageProperties.SourceBookIds} "${bookId}")`);
-
-  if (!result?.length) {
-    return null;
-  }
-
-  const block = result[0];
-  const page = await window.logseq.Editor.getPage(block.name, { includeChildren: true });
-  return page;
+  return getPageByQuery(db, `(page-property ${BookPageProperties.SourceBookIds} "${bookId}")`);
 }
 
 export async function getBookPage({ logseq, book, createPage = true }: GetBookPageParams) {
@@ -49,7 +54,7 @@ export async function getBookPage({ logseq, book, createPage = true }: GetBookPa
   path = renderTemplate(path, {
     type: 'book',
     title: book.title,
-    author: book.author ?? logseq.settings?.default_author ?? 'UnknownAuthor',
+    author: book.authors?.[0] ?? logseq.settings?.default_author ?? 'UnknownAuthor',
     zettel,
   });
 
@@ -74,7 +79,7 @@ export async function getBookPage({ logseq, book, createPage = true }: GetBookPa
     // TODO: Try to find page with asin, then book id
     if (!createPage) throw new Error(`Page not found`);
     console.info(`Creating new page`);
-    page = await logseq.Editor.createPage(path, createBookPageProperties(path, book), { createFirstBlock: true });
+    page = await logseq.Editor.createPage(path, createBookPageProperties(path, book, logseq.settings?.author_first_name_first), { createFirstBlock: true });
   }
 
   const pageBlocksTree = await logseq.Editor.getPageBlocksTree(page!.name);
