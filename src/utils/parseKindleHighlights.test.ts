@@ -70,7 +70,8 @@ describe('parseKindleHighlights', () => {
 
     it('should parse author', () => {
       const result = parseTitleLine('Effective Notetaking (Study Skills Book 1) (McPherson, Fiona)');
-      expect(result).toHaveProperty('author', 'McPherson, Fiona');
+      
+      expect(result).toHaveProperty('authors', expect.arrayContaining(['McPherson, Fiona']));
     });
   });
 
@@ -82,7 +83,7 @@ describe('parseKindleHighlights', () => {
 
     it('should parse author name', () => {
       const result = parseClipping(CLIPPING_1);
-      expect(result).toHaveProperty('author', 'Ahrens, Sönke');
+      expect(result).toHaveProperty('authors', expect.arrayContaining(['Ahrens, Sönke']));
     });
 
     it('should parse timestamp', () => {

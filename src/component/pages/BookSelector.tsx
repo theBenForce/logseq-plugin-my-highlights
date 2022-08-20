@@ -51,7 +51,7 @@ export const BookSelector: React.FC<BookSelectorParams> = ({books, selectedBooks
           <div className="flex flex-col grow truncate" style={{flexGrow: 1}}>
             <div className="truncate text-lg">{book.title}</div>
             <div className="flex grow flex-row gap-1 justify-between">
-              {book.author && <div className="truncate text-sm flex-1 grow">{book.author}</div>}
+              {book.authors && <div className="truncate text-sm flex-1 grow">{book.authors.join('; ')}</div>}
               <div className='text-sm'>Last Highlight {book.lastAnnotation.toLocaleDateString()}</div>
             </div>
           </div>

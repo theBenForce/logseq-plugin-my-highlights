@@ -24,20 +24,20 @@ export interface KindleBook extends BookMetadata {
 
 interface BookMetadata extends Partial<AmazonSearchResult> {
   title: string;
-  author?: string;
+  authors?: Array<string>;
 }
 
-export const parseTitleLine = (titleLine: string) => {
+export const parseTitleLine = (titleLine: string): BookMetadata => {
   const title = titleLine.replace(/\([^)]+\)$/g, '').trim();
   const authorMatches = /\((?<author>[^)]+)\)$/g.exec(titleLine);
 
-  let author = authorMatches?.groups?.["author"]?.trim();
+  let authors = authorMatches?.groups?.["author"]?.trim()?.split(';');
 
-  if (author === 'Unknown') {
-    author = undefined;
+  if (!authors?.length || authors[0] === 'Unknown') {
+    authors = undefined;
   }
 
-  return { title, author };
+  return { title, authors };
 }
 
 export const parseMetaLine = (metaLine: string): KindleAnnotation => {
@@ -122,7 +122,7 @@ export const parseKindleHighlights = (content: string): Array<KindleBook> => {
     if (!book) {
       book = {
         title: clipping.title,
-        author: clipping.author,
+        authors: clipping.authors,
         annotations: [],
         lastAnnotation: clipping.timestamp,
         bookId: ""

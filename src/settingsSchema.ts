@@ -10,7 +10,7 @@ Variables include:
 {title} - title provided by article
 {author} - author provided by article
 {zettel} - a datetime string (20220101000000)`,
-    default: "highlights/{type}/{title}",
+    default: "{title}/highlights",
     type: "string"
   },
   {
@@ -19,5 +19,12 @@ Variables include:
     description: 'Author value to use when actual author is unknown',
     default: 'Unknown Author',
     type: "string"
+  },
+  {
+    title: 'Author First Name First',
+    key: 'author_first_name_first',
+    description: 'When adding author links, put their first name first',
+    default: false,
+    type: 'boolean'
   }
 ];

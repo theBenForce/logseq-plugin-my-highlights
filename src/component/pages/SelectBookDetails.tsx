@@ -32,7 +32,7 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books,
 
   const onSelectBook = (book: KindleBook) => () => {
     logEvent(analytics!, 'search', {
-      search_term: [book.title, book.author].filter(Boolean).join(' ')
+      search_term: [book.title, ...(book.authors ?? [])].filter(Boolean).join(' ')
     });
 
     setSelectedBook(book);
@@ -57,7 +57,7 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books,
           <div className="flex flex-col grow truncate">
             <div className="truncate text-lg">{book.title}</div>
             <div className="flex grow flex-row gap-1 justify-between">
-              {book.author && <div className="truncate text-sm flex-1 grow">{book.author}</div>}
+              {book.authors && <div className="truncate text-sm flex-1 grow">{book.authors.join('; ')}</div>}
               <div className='text-sm'>Last Highlight {book.lastAnnotation.toLocaleDateString()}</div>
             </div>
           </div>
