@@ -1,3 +1,11 @@
+## [1.16.6](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.5...v1.16.6) (2022-08-20)
+
+
+### Bug Fixes
+
+* release status badge ([b553629](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/b5536292b90f1a7ccf8ccae877ac501516db0cb7))
+* release status banner ([c6ad124](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/c6ad12467f731cb760d2c39594a10c66ba5e69a8))
+
 ## [1.16.5](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.4...v1.16.5) (2022-08-20)
 
 
