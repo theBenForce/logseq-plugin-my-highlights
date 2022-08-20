@@ -4,6 +4,7 @@
 ## Features
 
   - easliy import highlights and notes directly from your kindle
+  - creates author links
 
 ## Importing Highlights
 
@@ -15,7 +16,39 @@ After selecting the clippings file you will be presented with a list of books th
 import highlights from. Select the checkbox next to each book that you would like to import and click
 the "Import" button.
 
-### Adding More Details
+### Customizing Import Settings
+
+If you open Settings -> Plugin Settings and select "My Highlights", you'll see a few options to
+customize how "My Highlights" imports data.
+
+![Plugin Settings](docs/settings.jpg)
+
+#### Highlight Path
+
+The setting that changes how your highlights are imported the most is the "Highlight Path" setting. This
+changes the title of the page where your imports will be stored. You can set this to anything that you
+want, but each book will need a unique title.
+
+When editing the highlight path you can use the following variables:
+
+| Variable | Description |
+| --- | --- |
+| {title} | Title of the book that's being imported |
+| {author} | Name of the first author listed on the book |
+| {type} | Type of highlights being imoprted, right now this will only be 'Book' |
+| {zettel} | A date time string to guarantee uniqueness. Only us this if you don't want to import more highlights later |
+
+#### Fallback Author
+
+If for some reason the clippings file doesn't have an author listed, this value will be used instead.
+
+#### Author First Name First
+
+By default, author names are listed as "Last, First". Check this box if you would rather have authors listed as "First Last".
+
+### Adding More Details (beta)
+
+> This feature is in beta testing and may not work yet
 
 If you would like to add the book's cover image, ASIN, and a link to the kindle web reader to the
 book page during import click the "Next" button instead of "Import". This will take you to a second
