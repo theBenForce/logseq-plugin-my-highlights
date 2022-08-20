@@ -1,0 +1,48 @@
+name: Review
+
+on: [pull_request]
+
+jobs:
+  node_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "yarn"
+
+      - name: Install Dependencies
+        run: yarn install
+        env:
+          CI: TRUE
+
+      - name: Test
+        run: yarn test --json --outputFile=jest-results.json
+        continue-on-error: true
+
+      - name: Process jest results with default
+        if: always()
+        uses: im-open/process-jest-test-results@v2.0.6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          results-file: "jest-results.json"
+
+      - name: Linting
+        run: yarn lint --output-file eslint_report.json --format json src
+        continue-on-error: true
+
+      - name: Annotate Code Linting Results
+        uses: ataylorme/eslint-annotate-action@v2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          report-json: "eslint_report.json"
+
+      - name: Upload ESLint report
+        uses: actions/upload-artifact@v2
+        with:
+          name: eslint_report.json
+          path: eslint_report.json
