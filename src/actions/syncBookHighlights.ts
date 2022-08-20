@@ -94,9 +94,8 @@ export const syncBookHighlights = async ({book, logseq, transaction}: SyncBookHi
       const content = annotation.content ?? '';
       const type = annotation.type;
       const start = annotation.location?.start;
-      const page = annotation.page;
 
-      updates.push(addContentBlock(content, type, start, page));
+      updates.push(addContentBlock(content, type, start, annotation.page));
 
       return updates;
       }, [] as Array<IBatchBlock>)
