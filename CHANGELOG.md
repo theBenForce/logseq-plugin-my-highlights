@@ -1,3 +1,10 @@
+## [1.16.5](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.4...v1.16.5) (2022-08-20)
+
+
+### Bug Fixes
+
+* too many pages created due to author names with commas ([#30](https://github.com/theBenForce/logseq-plugin-my-highlights/issues/30)) ([874f44d](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/874f44d66c5a878bf0b218262f2effe7217fa15a))
+
 ## [1.16.4](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.3...v1.16.4) (2022-08-19)
 
 
