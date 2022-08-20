@@ -1,5 +1,7 @@
-# Highlight Importer
+# My Highlights
 
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/theBenForce/logseq-plugin-my-highlights)](https://github.com/theBenForce/logseq-plugin-my-highlights/releases)
+[![Releases](https://github.com/theBenForce/logseq-plugin-my-highlights/actions/workflows/main.yml/badge.svg)](https://github.com/theBenForce/logseq-plugin-my-highlights/actions/workflows/main.yml)
 
 ## Features
 
