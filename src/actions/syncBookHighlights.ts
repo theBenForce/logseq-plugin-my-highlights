@@ -2,10 +2,10 @@
 import { IBatchBlock, IEditorProxy, ILSPluginUser } from '@logseq/libs/dist/LSPlugin.user';
 import * as Sentry from '@sentry/react';
 import { Transaction } from '@sentry/tracing';
-import hash from 'hash.js';
 import { BookPageProperties } from '../constants';
 import { getBookPage } from '../hooks/useImportBooks';
 import { blocksContainHighlight } from '../utils/containsHighlight';
+import { hashValues } from '../utils/hashValues';
 import { AnnotationType, KindleBook } from '../utils/parseKindleHighlights';
 
 
@@ -64,7 +64,7 @@ export const syncBookHighlights = async ({book, logseq, transaction}: SyncBookHi
     });
 
     function addContentBlock(content: string, type?: AnnotationType, start?: number, page?: number) {
-      const highlight_id = hash.sha224().update([type?.toUpperCase(), start, content].filter(Boolean).join(':')).digest('hex');
+      const highlight_id = hashValues([type?.toUpperCase(), start, content].filter(Boolean).join(':'));
       const icon = type === 'Highlight' ? '📌' : type === 'Note' ? '📝' : type === 'Bookmark' ? '🎯' : '❓';
 
       const properties: Record<string, unknown> = { highlight_id };
@@ -88,7 +88,7 @@ export const syncBookHighlights = async ({book, logseq, transaction}: SyncBookHi
     });
 
     console.info(`Creating blocks`);
-    let blocks = book.annotations
+    const blocks = book.annotations
       .sort((a, b) => (a.page ?? 0) - (b.page ?? 0))
       .reduce((updates, annotation) => {
       const content = annotation.content ?? '';
