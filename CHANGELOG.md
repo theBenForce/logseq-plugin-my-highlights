@@ -1,3 +1,10 @@
+## [1.16.7](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.6...v1.16.7) (2022-08-22)
+
+
+### Bug Fixes
+
+* make hashing consistent ([#32](https://github.com/theBenForce/logseq-plugin-my-highlights/issues/32)) ([a63202c](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/a63202ca8922070bc4d81d36277b8aeac4eeb2b6))
+
 ## [1.16.6](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.5...v1.16.6) (2022-08-20)
 
 
