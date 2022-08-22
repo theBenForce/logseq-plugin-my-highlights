@@ -1,12 +1,8 @@
 import { KindleBook } from "./parseKindleHighlights";
-import hash from 'hash.js';
+import { hashValues } from "./hashValues";
 
 export const getBookId = (book: KindleBook) => {
-  const id = ['kindleBook', book.title, book.author].join('|');
+  const id = ['kindleBook', book.title, book.author ?? book.authors?.join(';')].join('|');
 
-  if (hash?.sha224) {
-    return hash.sha224().update(id).digest('hex');
-  }
-
-  return id;
+  return hashValues(id);
 };
