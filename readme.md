@@ -2,6 +2,7 @@
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/theBenForce/logseq-plugin-my-highlights)](https://github.com/theBenForce/logseq-plugin-my-highlights/releases)
 [![Releases](https://github.com/theBenForce/logseq-plugin-my-highlights/actions/workflows/release.yml/badge.svg)](https://github.com/theBenForce/logseq-plugin-my-highlights/actions/workflows/release.yml)
+![GitHub all releases](https://img.shields.io/github/downloads/theBenForce/logseq-plugin-my-highlights/total)
 
 ## Features
 
