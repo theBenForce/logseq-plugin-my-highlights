@@ -1,3 +1,10 @@
+## [1.16.8](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.7...v1.16.8) (2023-01-05)
+
+
+### Bug Fixes
+
+* use createRoot ([765fee9](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/765fee92164eb8eba722aa0896b7c628345f1f4d))
+
 ## [1.16.7](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.6...v1.16.7) (2022-08-22)
 
 
