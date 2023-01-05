@@ -77,7 +77,7 @@ export const BookSelector: React.FC<BookSelectorParams> = ({books, selectedBooks
       {fitleredBooks.map((book) => <div className='border rounded flex flex-row grow items-center gap-1 px-2' key={book.bookId}>
         <input type='checkbox' checked={selectedBooks.some(other => getBookId(other) === getBookId(book))} onChange={onBookSelected(book)} />
         <div className="flex flex-col grow truncate" style={{flexGrow: 1}}>
-          <div className="truncate text-lg">{book.display ?? book.title}</div>
+          <div className="truncate text-lg">{book.title}</div>
           <div className="flex grow flex-row gap-1 justify-between">
             {book.authors && <div className="truncate text-sm flex-1 grow">{book.authors.join('; ')}</div>}
             <div className='text-sm'>Last Highlight {book.lastAnnotation.toLocaleDateString()}</div>
