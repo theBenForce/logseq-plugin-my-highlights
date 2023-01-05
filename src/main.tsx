@@ -2,7 +2,7 @@ import "@logseq/libs";
 import "virtual:windi.css";
 
 import React from "react";
-import ReactDOM from "react-dom";
+import {createRoot} from "react-dom/client";
 import App from "./App";
 
 import { logseq as PL } from "../package.json";
@@ -19,14 +19,16 @@ const magicKey = `__${PL.id}__loaded__`;
 function main() {
   const pluginId = logseq.baseInfo.id;
   console.info(`#${pluginId}: MAIN`);
-  ReactDOM.render(
+  const container = document.getElementById("app");
+  const root = createRoot(container!);
+  root.render(
     <React.StrictMode>
       
       <FirebaseProvider>
         <App />
         </FirebaseProvider>
     </React.StrictMode>,
-    document.getElementById("app")
+    
   );
 
   function createModel() {
