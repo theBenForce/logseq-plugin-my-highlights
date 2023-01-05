@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.8...v1.17.0) (2023-01-05)
+
+
+### Features
+
+* add filter to import dialog ([#40](https://github.com/theBenForce/logseq-plugin-my-highlights/issues/40)) ([24797fb](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/24797fb18f1b64021e322ca0ea631d9b538b4f5a))
+
 ## [1.16.8](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.7...v1.16.8) (2023-01-05)
 
 
