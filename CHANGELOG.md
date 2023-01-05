@@ -1,3 +1,10 @@
+## [1.17.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.17.0...v1.17.1) (2023-01-05)
+
+
+### Bug Fixes
+
+* remove display ([fca600c](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/fca600cbd3a2314d272f630f6a06180e166d9a52))
+
 # [1.17.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.16.8...v1.17.0) (2023-01-05)
 
 
