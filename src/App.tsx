@@ -47,7 +47,7 @@ function App() {
       return;
     }
 
-    var reader = new FileReader();
+    const reader = new FileReader();
 
     reader.onload = () => {
       console.info(`File loaded, parsing`);
