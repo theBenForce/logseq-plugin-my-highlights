@@ -1,6 +1,7 @@
 import { ILSPluginUser, PageEntity } from "@logseq/libs/dist/LSPlugin.user";
 import { KindleAnnotation, KindleBook } from "../../utils/parseKindleHighlights";
 import { format } from "date-fns";
+import * as Sentry from '@sentry/react';
 
 
 interface CreatePageBlocksParams {
@@ -49,6 +50,11 @@ export const createJournalBlocks = async ({ book, logseq, page }: CreatePageBloc
         collapsed: true
       }
     });
+
+    if (!bookBlock) {
+      throw new Error(`Could not create a book block for date`);
+      
+    }
 
     for (const a of dateBlocks.get(dateLabel)!) {
       await logseq.Editor.insertBlock(bookBlock!.uuid, [a.content, `#${a.type}`].join('\n'));
