@@ -1,3 +1,17 @@
+# [1.18.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.17.1...v1.18.0) (2023-01-06)
+
+
+### Bug Fixes
+
+* set last sync to 0 ([78b666c](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/78b666cc2ba593400684148b45267142224b6677))
+* throw on null book block ([8c9e41e](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/8c9e41e1e2a02b44d558f4adcc7c1c57c7276bc3))
+
+
+### Features
+
+* add highlights to journal pages ([d038cdc](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/d038cdcc7231f22edd82a4ef8fd96e376e8f01ef))
+* import into journal ([f018932](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/f0189322fb6681e30c58c0f2e50d1b864d1cbb91)), closes [#41](https://github.com/theBenForce/logseq-plugin-my-highlights/issues/41)
+
 ## [1.17.1](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.17.0...v1.17.1) (2023-01-05)
 
 
