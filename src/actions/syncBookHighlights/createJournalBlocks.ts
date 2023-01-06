@@ -1,7 +1,6 @@
 import { ILSPluginUser, PageEntity } from "@logseq/libs/dist/LSPlugin.user";
 import { KindleAnnotation, KindleBook } from "../../utils/parseKindleHighlights";
 import { format } from "date-fns";
-import * as Sentry from '@sentry/react';
 
 
 interface CreatePageBlocksParams {

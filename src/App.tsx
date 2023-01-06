@@ -78,7 +78,7 @@ function App() {
     return (<>
         <BasicDialog onClose={() => window.logseq.hideMainUI()}>
           <input ref={fileInputRef} type="file" accept='.txt' onChange={onFileSelected} hidden />
-          <DialogHeader title="Import Highlights" icon={<HighlightIcon />} trailing={<a href="https://www.buymeacoffee.com/theBenForce" target="_blank">
+          <DialogHeader title="Import Highlights" icon={<HighlightIcon />} trailing={<a href="https://www.buymeacoffee.com/theBenForce" target="_blank" rel="noreferrer">
             <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="BuyMeACoffee" width="140" />
             </a>} />
 

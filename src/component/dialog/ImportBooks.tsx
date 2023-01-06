@@ -1,5 +1,3 @@
-import * as Sentry from '@sentry/react';
-import { Transaction } from '@sentry/tracing';
 import React from 'react';
 import { getBookPage, useImportBooks } from '../../hooks/useImportBooks';
 import { useLogseq } from '../../hooks/useLogseq';
