@@ -20,9 +20,8 @@ export const nameToLink = ({ reverseNameOrder }: { reverseNameOrder?: boolean; }
 
 export const createBookPageProperties = (title: string, book: KindleBook, reverseNameOrder: boolean) => ({
   title,
-  alias: `${book.title.replaceAll('/', '_').split(':')[0]} - Highlights`,
   author: book.authors?.map(nameToLink({ reverseNameOrder }))?.join(' '),
-  last_sync: new Date().toISOString(),
+  last_sync: new Date(0).toISOString(),
   type: 'Book'
 });
 
