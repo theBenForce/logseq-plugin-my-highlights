@@ -7,6 +7,7 @@ import { renderTemplate } from "../utils/renderTemplate";
 import { createZettelId } from "../utils/zettelId";
 import { useLogseq } from "./useLogseq";
 
+
 export const nameToLink = ({ reverseNameOrder }: { reverseNameOrder?: boolean; } = {}) => (name: string): string => {
   let result = name;
 
@@ -19,9 +20,8 @@ export const nameToLink = ({ reverseNameOrder }: { reverseNameOrder?: boolean; }
 
 export const createBookPageProperties = (title: string, book: KindleBook, reverseNameOrder: boolean) => ({
   title,
-  alias: `${book.title.replaceAll('/', '_').split(':')[0]} - Highlights`,
   author: book.authors?.map(nameToLink({ reverseNameOrder }))?.join(' '),
-  last_sync: new Date().toISOString(),
+  last_sync: new Date(0).toISOString(),
   type: 'Book'
 });
 
@@ -50,13 +50,14 @@ const getPageByBookId = async (db: IDBProxy, bookId: string): Promise<PageEntity
 
 export async function getBookPage({ logseq, book, createPage = true }: GetBookPageParams) {
   const zettel = createZettelId();
-  let path = logseq.settings?.highlight_path ?? `highlights/{type}/{title}`;
-  path = renderTemplate(path, {
-    type: 'book',
-    title: book.title,
-    author: book.authors?.[0] ?? logseq.settings?.default_author ?? 'UnknownAuthor',
-    zettel,
-  });
+
+
+  const path = renderTemplate(logseq.settings?.highlight_path ?? `highlights/{type}/{title}`, {
+      type: 'book',
+      title: book.title,
+      author: book.authors?.[0] ?? logseq.settings?.default_author ?? 'UnknownAuthor',
+      zettel,
+    });
 
   console.info(`Loading path ${path}`);
   let page: PageEntity | null = null;

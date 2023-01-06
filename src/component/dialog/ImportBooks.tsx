@@ -1,12 +1,8 @@
-import * as Sentry from '@sentry/react';
-import { Transaction } from '@sentry/tracing';
 import React from 'react';
-import { syncBookHighlights } from '../../actions/syncBookHighlights';
 import { getBookPage, useImportBooks } from '../../hooks/useImportBooks';
 import { useLogseq } from '../../hooks/useLogseq';
 import { AmazonSearchResult } from '../../utils/parseAmazonSearchResults';
 import { KindleBook } from '../../utils/parseKindleHighlights';
-import { pause } from '../../utils/pause';
 import { BookSelector } from '../pages/BookSelector';
 import { BookDetailsSelector } from '../pages/SelectBookDetails';
 import { BasicDialog, DialogAction, DialogActions, DialogHeader } from './Basic';
@@ -38,8 +34,8 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
   }
 
   const pages = [
-    <BookSelector books={books} setSelectedBooks={setSelectedBooks} selectedBooks={selectedBooks} />,
-    <BookDetailsSelector books={selectedBooks} setBookDetails={setBookDetails} />
+    <BookSelector key="BookSelector" books={books} setSelectedBooks={setSelectedBooks} selectedBooks={selectedBooks} />,
+    <BookDetailsSelector key="BookDetailsSelector" books={selectedBooks} setBookDetails={setBookDetails} />
   ];
 
   const onImportBooks = async () => {
@@ -90,34 +86,4 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
   }
 
   return null;
-}
-
-
-
-async function importBooks(booksToImport: KindleBook[], books: KindleBook[]) {
-  const transaction = Sentry.startTransaction({
-    name: 'onImportBooks',
-    description: "Import highlights from Kindle My Clippings file",
-    data: {
-      books: booksToImport.length,
-      available_books: books.length,
-      source: 'kindle_clippings',
-    }
-  }) as Transaction;
-  Sentry.getCurrentHub().configureScope(scope => scope.setSpan(transaction));
-  for (const book of booksToImport) {
-    try {
-      // @ts-ignore
-      await syncBookHighlights({
-        book,
-        transaction,
-        logseq: window.logseq
-      });
-    } catch (ex) {
-      console.error(ex);
-      Sentry.captureException(ex);
-    }
-  }
-
-  transaction.finish();
 }

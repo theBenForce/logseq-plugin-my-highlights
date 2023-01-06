@@ -2,6 +2,14 @@ import { SettingSchemaDesc } from "@logseq/libs/dist/LSPlugin";
 
 export const SettingsSchema: Array<SettingSchemaDesc> = [
   {
+    title: 'Highlight Location',
+    key: 'highlight_location',
+    default: 'journal',
+    type: 'enum',
+    enumChoices: ['page', 'journal'],
+    description: 'Should highlights be imported into a page for the book or into the journal and linked to the book?'
+  },
+  {
     title: 'Highlight Path',
     key: 'highlight_path',
     description: `Path where new highlights should be imported to.
@@ -10,7 +18,7 @@ Variables include:
 {title} - title provided by article
 {author} - author provided by article
 {zettel} - a datetime string (20220101000000)`,
-    default: "{title}/highlights",
+    default: "{title}",
     type: "string"
   },
   {

@@ -8,6 +8,8 @@
 
   - easliy import highlights and notes directly from your kindle
   - creates author links
+  - highlights can be imported into your jounal or directly onto the book's page
+  - Book page names can be customized
 
 ## Importing Highlights
 
@@ -25,6 +27,10 @@ If you open Settings -> Plugin Settings and select "My Highlights", you'll see a
 customize how "My Highlights" imports data.
 
 ![Plugin Settings](docs/settings.jpg)
+
+#### Highlight Location
+
+Your highlights can be imported into two different locations: journal pages or a page for the book. When importing into the journal, they will be placed on the date that the highlight was created, under a link to the book page.
 
 #### Highlight Path
 
