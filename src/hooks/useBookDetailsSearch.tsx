@@ -1,6 +1,7 @@
 import React from 'react';
 import { AmazonSearchResult, parseAmazonSearchResults } from '../utils/parseAmazonSearchResults';
 import * as Sentry from '@sentry/react';
+import fetch from 'cross-fetch';
 
 
 const searchAmazonKindle = async (query: string): Promise<Array<AmazonSearchResult>> => {
@@ -11,9 +12,7 @@ const searchAmazonKindle = async (query: string): Promise<Array<AmazonSearchResu
   url.searchParams.append('i', 'digital-text');
   url.searchParams.append('k', query);
 
-  const response = await fetch(url.toString(), {
-    mode: 'no-cors'
-  });
+  const response = await fetch(url.toString());
 
   if (response.status === 200) {
     const content = await response.text();

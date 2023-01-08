@@ -1,4 +1,5 @@
 import React from 'react';
+import { useFeatureFlag } from '../../hooks/useFeatureFlag';
 import { getBookPage, useImportBooks } from '../../hooks/useImportBooks';
 import { useLogseq } from '../../hooks/useLogseq';
 import { AmazonSearchResult } from '../../utils/parseAmazonSearchResults';
@@ -21,6 +22,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
   const [selectedBooks, setSelectedBooks] = React.useState<Array<KindleBook>>([]);
   const { importBooks } = useImportBooks();
   const logseq = useLogseq();
+  const isDetailsSelectorEnabled = useFeatureFlag('details_selector');
 
   const setBookDetails = (bookId: string, details: AmazonSearchResult) => {
     const selectedBook = books.find(x => x.bookId === bookId)!;
@@ -35,7 +37,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
 
   const pages = [
     <BookSelector key="BookSelector" books={books} setSelectedBooks={setSelectedBooks} selectedBooks={selectedBooks} />,
-    <BookDetailsSelector key="BookDetailsSelector" books={selectedBooks} setBookDetails={setBookDetails} />
+    isDetailsSelectorEnabled && <BookDetailsSelector key="BookDetailsSelector" books={selectedBooks} setBookDetails={setBookDetails} />
   ];
 
   const onImportBooks = async () => {
