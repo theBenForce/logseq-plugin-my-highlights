@@ -22,6 +22,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
   const [selectedBooks, setSelectedBooks] = React.useState<Array<KindleBook>>([]);
   const { importBooks } = useImportBooks();
   const logseq = useLogseq();
+  // debugger;
   const isDetailsSelectorEnabled = useFeatureFlag('details_selector');
 
   const setBookDetails = (bookId: string, details: AmazonSearchResult) => {
@@ -37,8 +38,11 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
 
   const pages = [
     <BookSelector key="BookSelector" books={books} setSelectedBooks={setSelectedBooks} selectedBooks={selectedBooks} />,
-    isDetailsSelectorEnabled && <BookDetailsSelector key="BookDetailsSelector" books={selectedBooks} setBookDetails={setBookDetails} />
   ];
+
+  if (isDetailsSelectorEnabled) {
+    pages.push(<BookDetailsSelector key="BookDetailsSelector" books={selectedBooks} setBookDetails={setBookDetails} />);
+  }
 
   const onImportBooks = async () => {
     console.info(`Import Books`);
@@ -80,7 +84,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
         {pages[currentPage]}
         <DialogActions>
           {currentPage > 0 && <DialogAction label='Back' onClick={onPreviousPage} disabled={currentPage <= 0} />}
-          {currentPage < pages.length - 1 && <DialogAction label='Next' onClick={onNextPage} disabled={currentPage === pages.length - 1} />}
+          {pages.length > 1 && currentPage < pages.length - 1 && <DialogAction label='Next' onClick={onNextPage} disabled={currentPage === pages.length - 1} />}
           <DialogAction label='Import' onClick={onImportBooks} disabled={!selectedBooks.length} />
       </DialogActions>
       </BasicDialog>
