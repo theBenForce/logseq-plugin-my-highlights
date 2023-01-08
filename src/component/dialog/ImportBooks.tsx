@@ -1,4 +1,5 @@
 import React from 'react';
+import { useFeatureFlag } from '../../hooks/useFeatureFlag';
 import { getBookPage, useImportBooks } from '../../hooks/useImportBooks';
 import { useLogseq } from '../../hooks/useLogseq';
 import { AmazonSearchResult } from '../../utils/parseAmazonSearchResults';
@@ -21,6 +22,8 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
   const [selectedBooks, setSelectedBooks] = React.useState<Array<KindleBook>>([]);
   const { importBooks } = useImportBooks();
   const logseq = useLogseq();
+  // debugger;
+  const isDetailsSelectorEnabled = useFeatureFlag('enableDetailsSelector');
 
   const setBookDetails = (bookId: string, details: AmazonSearchResult) => {
     const selectedBook = books.find(x => x.bookId === bookId)!;
@@ -35,8 +38,11 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
 
   const pages = [
     <BookSelector key="BookSelector" books={books} setSelectedBooks={setSelectedBooks} selectedBooks={selectedBooks} />,
-    <BookDetailsSelector key="BookDetailsSelector" books={selectedBooks} setBookDetails={setBookDetails} />
   ];
+
+  if (isDetailsSelectorEnabled) {
+    pages.push(<BookDetailsSelector key="BookDetailsSelector" books={selectedBooks} setBookDetails={setBookDetails} />);
+  }
 
   const onImportBooks = async () => {
     console.info(`Import Books`);
@@ -78,7 +84,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
         {pages[currentPage]}
         <DialogActions>
           {currentPage > 0 && <DialogAction label='Back' onClick={onPreviousPage} disabled={currentPage <= 0} />}
-          {currentPage < pages.length - 1 && <DialogAction label='Next' onClick={onNextPage} disabled={currentPage === pages.length - 1} />}
+          {pages.length > 1 && currentPage < pages.length - 1 && <DialogAction label='Next' onClick={onNextPage} disabled={currentPage === pages.length - 1} />}
           <DialogAction label='Import' onClick={onImportBooks} disabled={!selectedBooks.length} />
       </DialogActions>
       </BasicDialog>
