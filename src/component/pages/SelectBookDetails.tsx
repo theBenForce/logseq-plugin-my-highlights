@@ -1,8 +1,7 @@
 import { logEvent } from "firebase/analytics";
-import { getValue } from "firebase/remote-config";
 import React from 'react';
-import { FirebaseConfigKeys } from '../../constants';
 import { useBookDetailsSearch } from '../../hooks/useBookDetailsSearch';
+import { useConfigFlag } from "../../hooks/useFeatureFlag";
 import { useFirebase } from "../../hooks/useFirebase";
 import { getBookQuery } from '../../utils/getBookQuery';
 import { AmazonSearchResult } from "../../utils/parseAmazonSearchResults";
@@ -15,15 +14,14 @@ export interface BookDetailsSelectorProps {
 
 export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books, setBookDetails }) => {
   const [selectedBook, setSelectedBook] = React.useState<KindleBook>(books[0]);
-  const { remoteConfig, analytics } = useFirebase();
+  const { analytics } = useFirebase();
   const [searchQuery, setSearchQuery] = React.useState("");
   const { results: searchResults, search, isBusy: isSearching } = useBookDetailsSearch();
 
-  const amazonAssociateTag = React.useMemo(() => remoteConfig ? getValue(remoteConfig, FirebaseConfigKeys.AmazonAssociateTag).asString() : '', [remoteConfig]);
+  const amazonAssociateTag = useConfigFlag('amazonAssociateTag');
 
   React.useEffect(() => {
     onSearch(getBookQuery(selectedBook));
-
   }, []);
 
   React.useEffect(() => {
@@ -76,7 +74,7 @@ export const BookDetailsSelector: React.FC<BookDetailsSelectorProps> = ({ books,
         <div className='px-2 flex flex-col w-full'>
         <div className='text-lg'>{book.title}</div>
         <div className='text-sm'>{book.author}</div>
-          <div className='text-sm'><a href={`https://amazon.com${book.productPath}?tag=${amazonAssociateTag}`} target="_blank">View Book</a></div>
+          <div className='text-sm'><a href={`https://amazon.com${book.productPath}?tag=${amazonAssociateTag}`} target="_blank" rel="noreferrer">View Book</a></div>
           </div>
       </div>)}
       </div>
