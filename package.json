@@ -16,6 +16,7 @@
     "@logseq/libs": "0.0.14",
     "@sentry/react": "^7.29.0",
     "@sentry/tracing": "^7.29.0",
+    "@types/rox-browser": "^5.0.2",
     "cheerio": "^1.0.0-rc.12",
     "cross-fetch": "^3.1.5",
     "date-fns": "^2.29.3",
@@ -26,6 +27,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-use": "^17.3.1",
+    "rox-browser": "^5.4.2",
     "ulidx": "^0.4.0"
   },
   "devDependencies": {

@@ -23,7 +23,7 @@ export const ImportBooksDialog: React.FC<ImportBooksDialogProps> = ({ books, sho
   const { importBooks } = useImportBooks();
   const logseq = useLogseq();
   // debugger;
-  const isDetailsSelectorEnabled = useFeatureFlag('details_selector');
+  const isDetailsSelectorEnabled = useFeatureFlag('enableDetailsSelector');
 
   const setBookDetails = (bookId: string, details: AmazonSearchResult) => {
     const selectedBook = books.find(x => x.bookId === bookId)!;
