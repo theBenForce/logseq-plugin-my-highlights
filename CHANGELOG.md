@@ -1,3 +1,17 @@
+# [1.19.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.18.0...v1.19.0) (2023-01-08)
+
+
+### Bug Fixes
+
+* hide details page when feature flag missing ([ab04d6f](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/ab04d6fd69b64cef681b2df058e39215c020521c))
+* use cloudbees feature flags ([ac74a03](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/ac74a039ccd1d76b13122f6cc3501238deaa91b5))
+* use new associate tag ([877a97d](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/877a97d2cf6178cfc427c3e38c949c6112a366d3))
+
+
+### Features
+
+* disable details with feature flag ([927a577](https://github.com/theBenForce/logseq-plugin-my-highlights/commit/927a5771016087c4caa05eaeb99f724040e3869b))
+
 # [1.18.0](https://github.com/theBenForce/logseq-plugin-my-highlights/compare/v1.17.1...v1.18.0) (2023-01-06)
 
 
