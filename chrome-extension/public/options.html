@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Kindle Highlight Scraper Options</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+    
+    <script src="options.js"></script>
+  </head>
+  <body>
+    <div class="flex flex-col m-8 space-y-4">
+      <div class="form-control w-full max-w-xs">
+        <label class="label">
+          <span class="label-text">Logseq Server</span>
+        </label>
+        <input id="server-url-input" type="text" placeholder="http://localhost:1234" class="input input-bordered w-full max-w-xs" />
+      </div>
+      <div class="form-control w-full max-w-xs">
+        <label class="label">
+          <span class="label-text">Logseq API Key</span>
+        </label>
+        <input id="api-key-input" type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+      </div>
+      <div class="btn-group">
+        <button id="save-button" type="button" class="btn primary">Save</button>
+      </div>
+    </div>
+
+    <div id="dlg-changes-saved" class="modal">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg">Preferences Saved 🎉</h3>
+        <p class="py-4">Your preferences have been saved.</p>
+        <div class="modal-action">
+          <button id="btn-close-changes-saved" class="btn">Ok</label>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

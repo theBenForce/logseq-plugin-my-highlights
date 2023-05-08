@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Logseq My Highlights",
+  "version": "1.0",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://read.amazon.com/notebook*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://read.amazon.com/notebook*"
+      ],
+      "js": [
+        "kindleReaderScript.js"
+      ]
+    }
+  ],
+  "options_page": "options.html"
+}
